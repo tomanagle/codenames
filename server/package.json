@@ -1,0 +1,46 @@
+{
+    "name": "typescript-starter",
+    "version": "1.0.0",
+    "main": "src/app.ts",
+    "author": "Tom Nagle",
+    "license": "MIT",
+    "private": true,
+    "scripts": {
+        "lint": "eslint --ext .js,.ts ./server",
+        "lint:fix": "eslint --ext .js,.ts ./server --fix",
+        "test": "jest",
+        "build": "tsc",
+        "dev": "nodemon"
+    },
+    "devDependencies": {
+        "@types/cookie-parser": "^1.4.2",
+        "@types/jest": "^24.0.11",
+        "@types/method-override": "^0.0.31",
+        "@types/mongoose": "^5.5.26",
+        "@types/node": "^12.12.0",
+        "eslint": "^5.16.0",
+        "eslint-config-airbnb-base": "^13.1.0",
+        "eslint-plugin-import": "^2.17.2",
+        "jest": "^24.7.1",
+        "prettier": "1.17.0",
+        "pretty-quick": "^1.10.0",
+        "ts-jest": "^24.0.2",
+        "ts-node": "^8.1.0",
+        "typescript": "^3.4.5"
+    },
+    "dependencies": {
+        "@types/lodash": "^4.14.149",
+        "apollo-server": "^2.9.7",
+        "apollo-server-express": "^2.12.0",
+        "cookie-parser": "^1.4.5",
+        "dotenv": "^8.2.0",
+        "express": "^4.17.1",
+        "graphql": "^14.5.8",
+        "lodash": "^4.17.15",
+        "method-override": "^3.0.0",
+        "mongoose": "^5.7.7",
+        "mongoose-permalink": "^2.0.0",
+        "node-random-name": "^1.0.1",
+        "shortid": "^2.2.15"
+    }
+}

@@ -1,0 +1,95 @@
+# THIS IS A GENERATED FILE, use `yarn generate:graphql to regenerate
+
+enum CacheControlScope {
+  PUBLIC
+  PRIVATE
+}
+
+input EndTurnInput {
+  permalink: String!
+}
+
+type Game {
+  _id: ID!
+  permalink: String!
+  users: [User]
+  finished: Boolean
+  words: [Word]
+  currentTurn: Team
+}
+
+input GameUpdatedInput {
+  permalink: String
+}
+
+input GetGameInput {
+  permalink: String!
+}
+
+input JoinGameInput {
+  permalink: String!
+  team: Team!
+  role: Role!
+  name: String
+}
+
+enum Language {
+  English
+  Adult
+}
+
+type Mutation {
+  StartGame: Game
+  JoinGame(input: JoinGameInput!): User!
+  PickWord(input: PickWordInput!): Game
+  ResetGame(input: ResetGameInput!): Game!
+  EndTurn(input: EndTurnInput!): Game!
+}
+
+input PickWordInput {
+  word: ID!
+  user: ID!
+  permalink: String!
+}
+
+type Query {
+  game(input: GetGameInput!): Game!
+}
+
+input ResetGameInput {
+  gameId: ID!
+}
+
+enum Role {
+  spymaster
+  player
+}
+
+type Subscription {
+  GameUpdated(input: GameUpdatedInput!): Game
+}
+
+enum Team {
+  red
+  green
+  none
+}
+
+"""The `Upload` scalar type represents a file upload."""
+scalar Upload
+
+type User {
+  _id: ID!
+  team: Team!
+  role: Role!
+  name: String
+}
+
+type Word {
+  _id: ID!
+  label: String!
+  team: Team
+  picked: Boolean
+  death: Boolean
+  language: Language
+}

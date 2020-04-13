@@ -1,0 +1,12 @@
+{
+    "apps": [
+        {
+            "name": "typescript-starter",
+            "script": "dist/app.js",
+            "watch": false,
+            "env": {
+                "NODE_ENV": "production"
+            }
+        }
+    ]
+}
