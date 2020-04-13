@@ -76,7 +76,7 @@ const create = (initialState, headers) => {
       })
     : () => {
         // eslint-disable-next-line no-console
-        console.log('Is server');
+        return;
       };
 
   // Let Apollo figure out if the request is over ws or http

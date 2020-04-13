@@ -5,6 +5,8 @@ export const END_TURN_MUTATION = gql`
     EndTurn(input: $input) {
       _id
       currentTurn
+      winner
+      finished
       words {
         _id
         label
@@ -26,6 +28,8 @@ export const PICK_WORD_MUTATION = gql`
     PickWord(input: $input) {
       _id
       currentTurn
+      winner
+      finished
       words {
         _id
         label
@@ -59,6 +63,8 @@ export const START_GAME_MUTATION = gql`
       _id
       permalink
       currentTurn
+      winner
+      finished
       words {
         _id
         label
@@ -82,6 +88,8 @@ export const GAME_SUBSCRIPTION = gql`
     GameUpdated(input: $input) {
       _id
       currentTurn
+      winner
+      finished
       words {
         _id
         label
@@ -104,6 +112,8 @@ export const GAME_QUERY = gql`
     game(input: $input) {
       _id
       currentTurn
+      winner
+      finished
       words {
         _id
         label

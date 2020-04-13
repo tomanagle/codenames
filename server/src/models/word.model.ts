@@ -12,6 +12,7 @@ export interface Word extends Document {
     language: Language
     team: Team
     death: boolean
+    picked: boolean
 }
 
 const Schema = new mongoose.Schema(

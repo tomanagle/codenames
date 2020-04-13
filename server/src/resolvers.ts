@@ -29,9 +29,7 @@ const resolvers = {
                         'GameUpdated.permalink',
                         null
                     )
-                    console.log('payload', payload)
-                    console.log('permalink', permalink)
-                    console.log('payloadPermalink', payloadPermalink)
+
                     return (
                         permalink &&
                         payloadPermalink &&

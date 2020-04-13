@@ -21,11 +21,11 @@ const GamePage = ({ query: { permalink } }) => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const user = localStorage.getItem('codenamesuser');
+    const user = localStorage.getItem(`${permalink}codenamesuser`);
     if (user) {
       setUser(JSON.parse(user));
     }
-  });
+  }, []);
 
   const { data, loading } = useGameQuery({
     variables: {
@@ -35,10 +35,13 @@ const GamePage = ({ query: { permalink } }) => {
     }
   });
 
-  const [joinGame] = useJoinGameMutation({
+  const [joinGame, { error }] = useJoinGameMutation({
     onCompleted: data => {
       setUser(data.JoinGame);
-      localStorage.setItem('codenamesuser', JSON.stringify(data.JoinGame));
+      localStorage.setItem(
+        `${permalink}codenamesuser`,
+        JSON.stringify(data.JoinGame)
+      );
     },
     variables: {
       input: {
@@ -63,28 +66,31 @@ const GamePage = ({ query: { permalink } }) => {
   }
 
   const game: Game = get(data, 'game');
+  const users: Game['users'] = get(data, 'game.users', []);
 
-  const redSpymaster = game.users.filter(
+  const redSpymaster = users.filter(
     u => u.role === Role.SPYMASTER && u.team === Team.RED
   )[0];
-  const greenSpymaster = game.users.filter(
+  const greenSpymaster = users.filter(
     u => u.role === Role.SPYMASTER && u.team === Team.GREEN
   )[0];
-  const redPlayer = game.users.filter(
+  const redPlayer = users.filter(
     u => u.role === Role.PLAYER && u.team === Team.RED
   )[0];
 
-  const greenPlayer = game.users.filter(
+  const greenPlayer = users.filter(
     u => u.role === Role.PLAYER && u.team === Team.GREEN
   )[0];
 
   return (
     <App title="Codenames" description="Play codenames online with friends">
+      Error: {JSON.stringify(error)}
+      <br />
       user: {JSON.stringify(user)}
       <br />
-      players: {JSON.stringify(game.users)}
+      players: {JSON.stringify(users)}
       {user ? (
-        <GameContainer game={game} />
+        <GameContainer permalink={permalink} user={user} game={game} />
       ) : (
         <>
           <Input

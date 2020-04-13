@@ -13,9 +13,10 @@ type Game {
   _id: ID!
   permalink: String!
   users: [User]
-  finished: Boolean
   words: [Word]
   currentTurn: Team
+  winner: Team
+  finished: Boolean
 }
 
 input GameUpdatedInput {
@@ -53,7 +54,7 @@ input PickWordInput {
 }
 
 type Query {
-  game(input: GetGameInput!): Game!
+  game(input: GetGameInput!): Game
 }
 
 input ResetGameInput {

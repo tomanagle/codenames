@@ -140,7 +140,7 @@ export async function pickWord({ word, user, permalink }: PickWordInput) {
     const player = await User.findById(user)
         .lean()
         .exec()
-
+    console.log({ player })
     if (game.currentTurn !== player.team) {
         return game
     }
@@ -178,6 +178,26 @@ export async function pickWord({ word, user, permalink }: PickWordInput) {
         { _id: game._id, 'words._id': new mongoose.Types.ObjectId(word) },
         { $set: { 'words.$.picked': true } }
     ).exec()
+
+    const unselectedWords = await Game.findById(game._id)
+        .select('words')
+        .then(data => {
+            if (!data) return null
+            return data.words.filter(item => {
+                return String(item.team) === String(player.team) && !item.picked
+            })
+        })
+        .catch(error => {
+            throw error
+        })
+
+    // The player has won if there are no more cards
+    if (Array.isArray(unselectedWords) && !unselectedWords.length) {
+        await game.update({
+            winner: player.team,
+            finished: true,
+        })
+    }
 
     // If player selected the other team's card - switch turns
     if (player.team !== selectedWord.team) {

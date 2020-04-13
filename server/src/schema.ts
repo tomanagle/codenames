@@ -45,9 +45,10 @@ const typeDefs = gql`
         _id: ID!
         permalink: String!
         users: [User]
-        finished: Boolean
         words: [Word]
         currentTurn: Team
+        winner: Team
+        finished: Boolean
     }
     input GetGameInput {
         permalink: String!
