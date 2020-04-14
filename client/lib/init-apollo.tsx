@@ -9,7 +9,7 @@ import { getMainDefinition } from 'apollo-utilities';
 import { onError } from 'apollo-link-error';
 import fetch from 'isomorphic-fetch';
 import { createUploadLink } from 'apollo-upload-client';
-import { SERVER_BASE_URL, WEBSOCKET_BASE_URL } from '../constants';
+import { SERVER_BASE_URL, WEBSOCKET_BASE_URL, IS_DEV } from '../constants';
 
 console.log({ SERVER_BASE_URL });
 
@@ -55,7 +55,7 @@ const create = (initialState, headers) => {
     (typeof Blob !== 'undefined' && value instanceof Blob);
   const isUpload = ({ variables }) => Object.values(variables).some(isFile);
   const uploadLink = createUploadLink({
-    uri: SERVER_BASE_URL,
+    uri: `${IS_DEV ? 'http://' : 'https://'}${SERVER_BASE_URL}`,
     credentials: 'include',
     fetch
   });
@@ -71,7 +71,7 @@ const create = (initialState, headers) => {
   // Make sure the wsLink is only created on the browser. The server doesn't have a native implemention for websockets
   const wsLink = process.browser
     ? new WebSocketLink({
-        uri: WEBSOCKET_BASE_URL,
+        uri: `${IS_DEV ? 'ws://' : 'wss://'}${SERVER_BASE_URL}`,
         options: {
           reconnect: true
         }

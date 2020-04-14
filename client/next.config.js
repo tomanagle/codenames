@@ -173,14 +173,8 @@ const config = compose([
 
 config.excludeFile = str => /\*.{spec,test}.js/.test(str);
 
-config.serverRuntimeConfig = {
-  SERVER_BASE_URL: process.env.SERVER_BASE_URL,
-  CLIENT_BASE_URL: process.env.CLIENT_BASE_URL,
-  WEBSOCKET_BASE_URL: process.env.WEBSOCKET_BASE_URL
-};
-console.log('process.env.SERVER_BASE_URL', process.env.SERVER_BASE_URL);
 config.publicRuntimeConfig = {
-  SERVER_BASE_URL: process.env.SERVER_BASE_URL,
+  SERVER_BASE_URL: process.env.SERVER_BASE_URL || 'api.playcodenames.online',
   CLIENT_BASE_URL: process.env.CLIENT_BASE_URL,
   WEBSOCKET_BASE_URL: process.env.WEBSOCKET_BASE_URL
 };
