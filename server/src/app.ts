@@ -6,20 +6,15 @@ import { NextFunction } from 'connect'
 import { GraphQLError } from 'graphql'
 import { ApolloServer as _ApolloServer } from 'apollo-server-express'
 import { PubSub } from 'apollo-server-express'
-import { IS_DEBUG, CORS_ORIGIN } from './constants'
-
-export const pubsub = new PubSub()
-
+import { CORS_ORIGIN } from './constants'
 import connect from './database/connect'
-
 import methodOverride from 'method-override'
 import resolvers from './resolvers'
-
 import typeDefs from './schema'
-
 import cors from 'cors'
 
 const port = 4000
+export const pubsub = new PubSub()
 
 const ApolloServer = new _ApolloServer({
     typeDefs,
@@ -56,7 +51,9 @@ app.set('port', port)
 
 const server = http.createServer(app)
 
-function onListening() {
+async function onListening() {
+    await connect()
+
     const addr = server.address()
 
     const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + port
@@ -101,8 +98,6 @@ app.use('/graphql', (req: Request, res: Response, next: NextFunction) => {
     }
     return next()
 })
-
-connect()
 
 ApolloServer.applyMiddleware({ app, cors: false })
 

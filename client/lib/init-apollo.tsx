@@ -60,13 +60,11 @@ const create = (initialState, headers) => {
     fetch
   });
 
-  const httpLink = isUpload
-    ? uploadLink
-    : new BatchHttpLink({
-        uri: SERVER_BASE_URL,
-        credentials: 'include',
-        fetch
-      });
+  const httpLink = new BatchHttpLink({
+    uri: `${IS_DEV ? 'http://' : 'https://'}${SERVER_BASE_URL}`,
+    credentials: 'include',
+    fetch
+  });
 
   // Make sure the wsLink is only created on the browser. The server doesn't have a native implemention for websockets
   const wsLink = process.browser

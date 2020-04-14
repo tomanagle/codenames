@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Radio, Button, Input } from 'antd';
+import { Result } from 'antd';
+import Error from 'next/error';
 import { get } from 'lodash';
 import App from '../components/App';
 import {
@@ -11,13 +12,10 @@ import {
   Game
 } from '../generated';
 import GameContainer from '../containers/Game';
+import JoinGame from '../containers/JoinGame';
+import Winner from '../containers/Winner';
 
 const GamePage = ({ query: { permalink } }) => {
-  const [name, setName] = useState('');
-  // @ts-ignore
-  const [team, setTeam] = useState<Team>('');
-  // @ts-ignore
-  const [role, setRole] = useState<Role>('');
   const [user, setUser] = useState(null);
 
   useEffect(() => {
@@ -35,24 +33,6 @@ const GamePage = ({ query: { permalink } }) => {
     }
   });
 
-  const [joinGame, { error }] = useJoinGameMutation({
-    onCompleted: data => {
-      setUser(data.JoinGame);
-      localStorage.setItem(
-        `${permalink}codenamesuser`,
-        JSON.stringify(data.JoinGame)
-      );
-    },
-    variables: {
-      input: {
-        permalink,
-        name,
-        role,
-        team
-      }
-    }
-  });
-
   useGameUpdatedSubscription({
     variables: {
       input: {
@@ -66,68 +46,46 @@ const GamePage = ({ query: { permalink } }) => {
   }
 
   const game: Game = get(data, 'game');
+
+  if (!game) {
+    return <Error statusCode={404} />;
+  }
+
   const users: Game['users'] = get(data, 'game.users', []);
-
-  const redSpymaster = users.filter(
-    u => u.role === Role.SPYMASTER && u.team === Team.RED
-  )[0];
-  const greenSpymaster = users.filter(
-    u => u.role === Role.SPYMASTER && u.team === Team.GREEN
-  )[0];
-  const redPlayer = users.filter(
-    u => u.role === Role.PLAYER && u.team === Team.RED
-  )[0];
-
-  const greenPlayer = users.filter(
-    u => u.role === Role.PLAYER && u.team === Team.GREEN
-  )[0];
 
   return (
     <App title="Codenames" description="Play codenames online with friends">
-      Error: {JSON.stringify(error)}
-      <br />
-      user: {JSON.stringify(user)}
-      <br />
-      players: {JSON.stringify(users)}
-      {user ? (
-        <GameContainer permalink={permalink} user={user} game={game} />
+      {game.winner ? (
+        <Winner
+          winner={game.winner}
+          players={users.filter(item => item.team === game.winner)}
+        />
+      ) : null}
+      {!user && users.length !== 4 && (
+        <JoinGame
+          users={users}
+          permalink={permalink}
+          setUser={setUser}
+          visible={!user}
+        />
+      )}
+      {users.length === 4 || true ? (
+        <GameContainer
+          permalink={permalink}
+          user={
+            user || {
+              team: Team.NONE
+            }
+          }
+          game={game}
+        />
       ) : (
-        <>
-          <Input
-            onChange={e => setName(e.target.value)}
-            value={name}
-            placeholder="Choose a name"
-          />
-          <h3>Team</h3>
-          <Radio.Group
-            onChange={e => {
-              setTeam(e.target.value);
-            }}
-            value={team}
-          >
-            <Radio value={Team.RED}>{Team.RED.toLocaleUpperCase()}</Radio>
-            <Radio value={Team.GREEN}>{Team.GREEN.toLocaleUpperCase()}</Radio>
-          </Radio.Group>
-          <h3>Role</h3>
-          <Radio.Group
-            onChange={e => {
-              setRole(e.target.value);
-            }}
-            value={role}
-          >
-            <Radio value={Role.PLAYER}>{Role.PLAYER.toLocaleUpperCase()}</Radio>
-            <Radio value={Role.SPYMASTER}>
-              {Role.SPYMASTER.toLocaleUpperCase()}
-            </Radio>
-          </Radio.Group>
-          <Button
-            type="primary"
-            disabled={!role || !team || !name}
-            onClick={() => joinGame()}
-          >
-            JOIN GAME
-          </Button>
-        </>
+        <Result
+          title={`Not enough players to start`}
+          subTitle={`We currently have ${users.length} player${
+            users.length === 1 ? '' : 's'
+          } in the room. We need 4 to start.`}
+        />
       )}
     </App>
   );

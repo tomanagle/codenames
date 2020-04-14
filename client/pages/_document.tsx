@@ -29,6 +29,11 @@ class MyDocument extends Document {
     return (
       <html lang="en">
         <Head>
+          <style>
+            {`
+            #__next { height: 100% }
+          `}
+          </style>
           <link
             rel="stylesheet"
             href="https://fonts.googleapis.com/css?family=Roboto:300,400,500"
