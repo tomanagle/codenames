@@ -6,7 +6,7 @@ import { NextFunction } from 'connect'
 import { GraphQLError } from 'graphql'
 import { ApolloServer as _ApolloServer } from 'apollo-server-express'
 import { PubSub } from 'apollo-server-express'
-import { IS_DEBUG } from './constants'
+import { IS_DEBUG, CORS_ORIGIN } from './constants'
 
 export const pubsub = new PubSub()
 
@@ -41,7 +41,7 @@ const debug = require('debug')('apily:server')
 
 app.use(
     cors({
-        origin: 'http://localhost:3000',
+        origin: CORS_ORIGIN,
         credentials: true,
         optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
     })
@@ -95,15 +95,14 @@ function onError(error: IError) {
 /*
  * Respond to OPTIONS requests with a 200
  */
-// app.use('/graphql', (req: Request, res: Response, next: NextFunction) => {
+app.use('/graphql', (req: Request, res: Response, next: NextFunction) => {
+    if (req.method === 'OPTIONS') {
+        return res.sendStatus(200)
+    }
+    return next()
+})
 
-//     if (req.method === 'OPTIONS') {
-//         return res.sendStatus(200)
-//     }
-//     return next()
-// })
-
-connect({ db: 'mongodb://localhost/test-database' })
+connect()
 
 ApolloServer.applyMiddleware({ app, cors: false })
 
