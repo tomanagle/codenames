@@ -1,0 +1,20 @@
+{
+    "version": 2,
+    "builds": [{ "src": "./client", "use": "@now/next" }],
+    "name": "codenames",
+    "routes": [
+        {
+            "src": "^/service-worker.js$",
+            "dest": "/_next/static/service-worker.js",
+            "headers": {
+                "cache-control": "public, max-age=43200, immutable",
+                "Service-Worker-Allowed": "/"
+            }
+        },
+        {
+            "src": "/graphql",
+            "dest": "/app.js",
+            "methods": ["POST"]
+        }
+    ]
+}
