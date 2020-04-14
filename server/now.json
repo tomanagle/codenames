@@ -1,6 +1,7 @@
 {
     "version": 2,
-    "builds": [{ "dist": "app.js", "use": "@now/node-server" }],
+    "builds": [{ "src": "dist/app.js", "use": "@now/node" }],
+    "name": "codenames-api",
     "routes": [
         {
             "src": "/graphql",
