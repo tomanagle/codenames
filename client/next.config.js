@@ -178,7 +178,7 @@ config.serverRuntimeConfig = {
   CLIENT_BASE_URL: process.env.CLIENT_BASE_URL,
   WEBSOCKET_BASE_URL: process.env.WEBSOCKET_BASE_URL
 };
-
+console.log('process.env.SERVER_BASE_URL', process.env.SERVER_BASE_URL);
 config.publicRuntimeConfig = {
   SERVER_BASE_URL: process.env.SERVER_BASE_URL,
   CLIENT_BASE_URL: process.env.CLIENT_BASE_URL,

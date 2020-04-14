@@ -11,6 +11,8 @@ import fetch from 'isomorphic-fetch';
 import { createUploadLink } from 'apollo-upload-client';
 import { SERVER_BASE_URL, WEBSOCKET_BASE_URL } from '../constants';
 
+console.log({ SERVER_BASE_URL });
+
 let apolloClient = null;
 
 const create = (initialState, headers) => {
