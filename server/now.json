@@ -1,0 +1,11 @@
+{
+    "version": 2,
+    "builds": [{ "dist": "app.js", "use": "@now/node-server" }],
+    "routes": [
+        {
+            "src": "/graphql",
+            "dest": "/app.js",
+            "methods": ["POST"]
+        }
+    ]
+}

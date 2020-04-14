@@ -74,7 +74,7 @@ export async function startGame() {
 }
 
 export interface JoinGameInput {
-    permalink: String
+    permalink: string
     team: Team
     role: Role
     name?: string

@@ -95,12 +95,13 @@ function onError(error: IError) {
 /*
  * Respond to OPTIONS requests with a 200
  */
-app.use('/graphql', (req: Request, res: Response, next: NextFunction) => {
-    if (req.method === 'OPTIONS') {
-        return res.sendStatus(200)
-    }
-    return next()
-})
+// app.use('/graphql', (req: Request, res: Response, next: NextFunction) => {
+
+//     if (req.method === 'OPTIONS') {
+//         return res.sendStatus(200)
+//     }
+//     return next()
+// })
 
 connect({ db: 'mongodb://localhost/test-database' })
 

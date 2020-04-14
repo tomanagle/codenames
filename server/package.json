@@ -13,7 +13,9 @@
         "dev": "nodemon"
     },
     "devDependencies": {
+        "@types/lodash": "^4.14.149",
         "@types/cookie-parser": "^1.4.2",
+        "@types/graphql": "^14.5.0",
         "@types/jest": "^24.0.11",
         "@types/method-override": "^0.0.31",
         "@types/mongoose": "^5.5.26",
@@ -26,20 +28,18 @@
         "pretty-quick": "^1.10.0",
         "ts-jest": "^24.0.2",
         "ts-node": "^8.1.0",
-        "typescript": "^3.4.5"
+        "typescript": "^3.8.3"
     },
     "dependencies": {
-        "@types/lodash": "^4.14.149",
-        "apollo-server": "^2.9.7",
+        "apollo-server": "^2.12.0",
         "apollo-server-express": "^2.12.0",
         "cookie-parser": "^1.4.5",
         "dotenv": "^8.2.0",
-        "express": "^4.17.1",
         "graphql": "^14.5.8",
+        "graphql-subscriptions": "^1.1.0",
         "lodash": "^4.17.15",
         "method-override": "^3.0.0",
         "mongoose": "^5.7.7",
-        "mongoose-permalink": "^2.0.0",
         "node-random-name": "^1.0.1",
         "shortid": "^2.2.15"
     }
