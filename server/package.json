@@ -10,7 +10,8 @@
         "lint:fix": "eslint --ext .js,.ts ./server --fix",
         "test": "jest",
         "build": "tsc",
-        "dev": "nodemon"
+        "dev": "nodemon",
+        "deploy": "npm install && npm run build && pm2 start process.json"
     },
     "devDependencies": {
         "@types/lodash": "^4.14.149",

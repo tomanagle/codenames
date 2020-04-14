@@ -1,7 +1,7 @@
 {
     "apps": [
         {
-            "name": "typescript-starter",
+            "name": "codenames-server",
             "script": "dist/app.js",
             "watch": false,
             "env": {
