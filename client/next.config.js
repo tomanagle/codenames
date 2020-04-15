@@ -14,9 +14,9 @@ const manifestConfig = {
   manifest: {
     output: './public/', // The folder where the manifest will be generated.
     version: version,
-    name: '',
-    short_name: '',
-    start_url: '',
+    name: 'Play Codenames Online',
+    short_name: 'Play Codenames',
+    start_url: 'https://playcodenames.online',
     Theme_color: '#24b5b5',
     background_color: '#24b5b5',
     icons: [
@@ -111,7 +111,7 @@ if (typeof require !== 'undefined') {
 
 const config = compose([
   [withManifest, manifestConfig],
-  // [withOffline, nextOfflineConfig],
+  [withOffline, nextOfflineConfig],
   // [withSourceMaps],
   [
     withCSS,
