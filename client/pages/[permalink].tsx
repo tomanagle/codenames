@@ -69,7 +69,11 @@ const GamePage = ({ query: { permalink } }) => {
   }
 
   return (
-    <App title="Codenames" description="Play codenames online with friends">
+    <App
+      title="Codenames"
+      description="Play codenames online with friends"
+      showFooter={false}
+    >
       {game.winner ? (
         <Winner
           winner={game.winner}
