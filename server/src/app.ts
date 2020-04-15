@@ -12,6 +12,7 @@ import methodOverride from 'method-override'
 import resolvers from './resolvers'
 import typeDefs from './schema'
 import cors from 'cors'
+//import insert from './words/insert'
 
 const port = 4000
 export const pubsub = new PubSub()
@@ -54,6 +55,10 @@ const server = http.createServer(app)
 
 async function onListening() {
     await connect()
+
+    // setTimeout(() => {
+    //     insert()
+    // }, 5000)
 
     const addr = server.address()
 

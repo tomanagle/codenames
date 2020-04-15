@@ -1,4 +1,6 @@
 const english = require('./english.json')
+const adult = require('./adult.json')
+
 import Word, { Language } from '../models/word.model'
 
 async function run() {
@@ -6,6 +8,18 @@ async function run() {
     await english.forEach(async (word: string) => {
         console.log('inserting word', word)
         await Word.create({ label: word, language: Language.English })
+            .then(data => {
+                console.log({ data })
+            })
+            .catch(error => {
+                console.error('error', error)
+                throw error
+            })
+    })
+
+    await adult.forEach(async (word: string) => {
+        console.log('inserting word', word)
+        await Word.create({ label: word, language: Language.Adult })
             .then(data => {
                 console.log({ data })
             })
