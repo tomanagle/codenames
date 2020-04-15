@@ -1,4 +1,5 @@
-import { Row, Col, Button } from 'antd';
+import React, { useState } from 'react';
+import { Row, Col, Button, Spin } from 'antd';
 import styled from 'styled-components';
 import {
   Game,
@@ -30,21 +31,45 @@ const Wrapper = styled.div`
 
 const Tile = styled.div`
   width: 20%;
-  border: solid 1px black;
   text-align: center;
 
   button {
-    color: ${props => (props.isSpyMaster ? `${props.teamColour};` : 'black;')}
     width: 100%;
-    background-color: ${props => props.backgroundColor};
     padding: 1rem;
     text-transform: uppercase;
     font-size: 1rem;
     cursor: pointer;
+    background-color: #fff;
+    border: solid 1px #ccc;
   }
 
   button:disabled {
     cursor: default;
+  }
+
+  button.role__spymaster.team__red.word-team__red.picked__false {
+    background-color: #fff;
+    color: #ff1744;
+  }
+
+  button.word-team__red.picked__true {
+    background-color: #ff1744;
+    color: #fff;
+  }
+
+  button.word-team__green.picked__true {
+    background-color: #00c853;
+    color: #fff;
+  }
+
+  button.picked__true.is_death__true {
+    background-color: #000;
+    color: #fff;
+  }
+
+  button.word-team__none.picked__true {
+    background-color: #f8f8f8;
+    color: #000;
   }
 `;
 
@@ -57,7 +82,12 @@ const GameContainer = ({
   user: User;
   permalink: Game['permalink'];
 }) => {
-  const [pickWord] = usePickWordMutation();
+  const [loading, setLoading] = useState('');
+  const [pickWord] = usePickWordMutation({
+    onCompleted: () => {
+      setLoading('');
+    }
+  });
   const [endTurn] = useEndTurnMutation({
     variables: {
       input: {
@@ -90,24 +120,18 @@ const GameContainer = ({
       <Wrapper>
         {game.words.map(word => {
           return (
-            <Tile
-              backgroundColor={getBackgroundColour(user, word)}
-              isSpyMaster={
-                user.role === Role.SPYMASTER && word.team === user.team
-              }
-              teamColour={user.team === Team.RED ? '#ff1744' : '#00c853'}
-              xs={6}
-              sm={6}
-              md={6}
-              lg={6}
-              xl={6}
-              key={`word__${word._id}`}
-            >
+            <Tile xs={6} sm={6} md={6} lg={6} xl={6} key={`word__${word._id}`}>
               <button
+                className={`role__${user.role} team__${user.team} word-team__${
+                  word.team
+                } picked__${String(word.picked)} is_death__${String(
+                  word.death
+                )}`}
                 disabled={
                   game.currentTurn !== user.team || user.role === Role.SPYMASTER
                 }
                 onClick={() => {
+                  setLoading(word._id);
                   pickWord({
                     variables: {
                       input: {
@@ -119,11 +143,8 @@ const GameContainer = ({
                   });
                 }}
               >
-                team: {word.team}
-                <br />
-                death: {word.death ? 'death word' : ''}
-                <br />
                 {word.label}
+                {loading === word._id ? <Spin /> : null}
               </button>
             </Tile>
           );

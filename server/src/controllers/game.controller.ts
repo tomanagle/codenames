@@ -171,12 +171,14 @@ export async function pickWord({ word, user, permalink }: PickWordInput) {
             winner: player.team === Team.green ? Team.red : Team.green,
         })
 
+        const data = {
+            ...game.toJSON(),
+            finished: true,
+            winner: player.team === Team.green ? Team.red : Team.green,
+        }
+
         pubsub.publish(GAME_UPDATED, {
-            GameUpdated: {
-                ...game,
-                finished: true,
-                winner: player.team === Team.green ? Team.red : Team.green,
-            },
+            GameUpdated: data,
         })
 
         return Game.findById(game._id)
@@ -185,13 +187,14 @@ export async function pickWord({ word, user, permalink }: PickWordInput) {
     }
 
     // Set the word as picked
-    await Game.findOneAndUpdate(
+    await Game.update(
         { _id: game._id, 'words._id': new mongoose.Types.ObjectId(word) },
         { $set: { 'words.$.picked': true } }
     ).exec()
 
     const unselectedWords = await Game.findById(game._id)
         .select('words')
+        .lean()
         .then(data => {
             if (!data) return null
             return data.words.filter(item => {
@@ -282,6 +285,8 @@ export async function resetGame({ permalink }: ResetGameInput) {
         { permalink },
         {
             $set: {
+                finished: false,
+                winner: Team.none,
                 currentTurn: starts === Team.red ? Team.red : Team.green,
                 words: shuffle([
                     ...redWords,
@@ -304,8 +309,9 @@ export async function resetGame({ permalink }: ResetGameInput) {
         }
     )
 
-
-    const updatedGame = await Game.findById(game._id).lean().exec()
+    const updatedGame = await Game.findById(game._id)
+        .lean()
+        .exec()
 
     pubsub.publish(GAME_UPDATED, { GameUpdated: updatedGame })
 

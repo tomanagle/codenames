@@ -53,14 +53,6 @@ const App = ({
   showFooter?: boolean;
   showNav?: boolean;
 }) => {
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.src =
-      '//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5e88192c0627598b';
-    script.async = true;
-    document.body.appendChild(script);
-  });
-
   return (
     <Layout>
       <Head>
