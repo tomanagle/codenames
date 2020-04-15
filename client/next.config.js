@@ -174,9 +174,11 @@ const config = compose([
 config.excludeFile = str => /\*.{spec,test}.js/.test(str);
 
 config.publicRuntimeConfig = {
-  SERVER_BASE_URL: process.env.SERVER_BASE_URL || 'api.playcodenames.online',
+  SERVER_BASE_URL:
+    process.env.SERVER_BASE_URL || 'https://api.playcodenames.online',
   CLIENT_BASE_URL: process.env.CLIENT_BASE_URL,
-  WEBSOCKET_BASE_URL: process.env.WEBSOCKET_BASE_URL
+  WEBSOCKET_BASE_URL:
+    process.env.WEBSOCKET_BASE_URL || 'wss://api.playcodenames.online'
 };
 
 module.exports = config;
