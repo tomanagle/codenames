@@ -175,10 +175,10 @@ config.excludeFile = str => /\*.{spec,test}.js/.test(str);
 
 config.publicRuntimeConfig = {
   SERVER_BASE_URL:
-    process.env.SERVER_BASE_URL || 'https://api.playcodenames.online',
+    process.env.SERVER_BASE_URL || 'https://api.playcodenames.online/graphql',
   CLIENT_BASE_URL: process.env.CLIENT_BASE_URL,
   WEBSOCKET_BASE_URL:
-    process.env.WEBSOCKET_BASE_URL || 'wss://api.playcodenames.online'
+    process.env.WEBSOCKET_BASE_URL || 'wss://api.playcodenames.online/graphql'
 };
 
 module.exports = config;
