@@ -4,10 +4,23 @@ import styled from 'styled-components';
 import App from '../components/App';
 import { useStartGameMutation } from '../generated';
 import Head from 'next/head';
-import getBG from '../getRanomdBG';
 
 const Wrapper = styled.div`
-  ${getBG};
+  background-image: linear-gradient(
+    to right top,
+    #d16ba5,
+    #c777b9,
+    #ba83ca,
+    #aa8fd8,
+    #9a9ae1,
+    #8aa7ec,
+    #79b3f4,
+    #69bff8,
+    #52cffe,
+    #41dfff,
+    #46eefa,
+    #5ffbf1
+  );
   height: 100%;
   position: fixed;
   top: 0;
@@ -22,6 +35,7 @@ const Wrapper = styled.div`
     flex-direction: column;
     padding: 1rem;
     background-color: rgba(256, 256, 256, 0.8);
+    border-radius: 4px;
   }
 `;
 
@@ -46,7 +60,7 @@ const Home = () => {
       <Wrapper>
         <div className="addthis_floating_share_toolbox" />
         <div className="inner">
-          <h2>Start playing codenames online</h2>
+          <h1>Playing codenames online with friends</h1>
           <p>
             Play Codenames Online with friends. To get started, click 'START
             GAME' and share the link with your friends.

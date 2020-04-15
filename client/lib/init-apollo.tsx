@@ -8,8 +8,7 @@ import { createPersistedQueryLink } from 'apollo-link-persisted-queries';
 import { getMainDefinition } from 'apollo-utilities';
 import { onError } from 'apollo-link-error';
 import fetch from 'isomorphic-fetch';
-import { createUploadLink } from 'apollo-upload-client';
-import { SERVER_BASE_URL, IS_DEV, WEBSOCKET_BASE_URL } from '../constants';
+import { SERVER_BASE_URL, WEBSOCKET_BASE_URL } from '../constants';
 
 let apolloClient = null;
 

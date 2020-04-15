@@ -8,7 +8,8 @@ export const IS_SERVER = !process.browser;
 export const {
   SERVER_BASE_URL,
   WEBSOCKET_BASE_URL,
-  CLIENT_BASE_URL
+  CLIENT_BASE_URL,
+  GA_ID
 } = publicRuntimeConfig;
 
 export const SENTRY_DSN = process.env.SENTRY_DSN || '';

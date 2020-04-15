@@ -175,10 +175,12 @@ config.excludeFile = str => /\*.{spec,test}.js/.test(str);
 
 config.publicRuntimeConfig = {
   SERVER_BASE_URL:
-    process.env.SERVER_BASE_URL || 'https://api.playcodenames.online/graphql',
+    process.env.SERVER_BASE_URL || 'http://localhost:4000/graphql',
   CLIENT_BASE_URL: process.env.CLIENT_BASE_URL,
   WEBSOCKET_BASE_URL:
-    process.env.WEBSOCKET_BASE_URL || 'wss://api.playcodenames.online/graphql'
+    process.env.WEBSOCKET_BASE_URL || 'ws://localhost:4000/graphql',
+  // Google Analytics UA-
+  GA_ID: process.env.GA_ID || ''
 };
 
 module.exports = config;
