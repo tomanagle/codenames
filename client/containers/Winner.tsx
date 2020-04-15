@@ -10,7 +10,7 @@ const Winner = ({ winner, players }) => {
       <Result
         status="success"
         title={`The ${String(winner).toUpperCase()} team are the winners`}
-        // subTitle={`Congratulations ${players[0].name} and ${players[1].name}! Your are the winners of the round.`}
+        subTitle={`Congratulations ${players[0].name} and ${players[1].name}! Your are the winners of the round.`}
       />
     </Modal>
   );
