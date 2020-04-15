@@ -13,6 +13,7 @@ import resolvers from './resolvers'
 import typeDefs from './schema'
 import cors from 'cors'
 //import insert from './words/insert'
+import { version } from '../package.json'
 
 const port = 4000
 export const pubsub = new PubSub()
@@ -50,6 +51,10 @@ app.use(methodOverride())
 app.use(cookieParser())
 
 app.set('port', port)
+
+app.get('/healthcheck', (req, res) =>
+    res.send(`Server is healthy and running ${version}`)
+)
 
 const server = http.createServer(app)
 
