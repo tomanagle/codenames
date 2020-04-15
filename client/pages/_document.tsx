@@ -31,7 +31,7 @@ class MyDocument extends Document {
         <Head>
           <style>
             {`
-            #__next { height: 100% }
+            #__next { min-height: 100% }
           `}
           </style>
           <link

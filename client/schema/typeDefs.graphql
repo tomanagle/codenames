@@ -58,7 +58,7 @@ type Query {
 }
 
 input ResetGameInput {
-  gameId: ID!
+  permalink: String
 }
 
 enum Role {
@@ -81,8 +81,8 @@ scalar Upload
 
 type User {
   _id: ID!
-  team: Team!
-  role: Role!
+  team: Team
+  role: Role
   name: String
 }
 

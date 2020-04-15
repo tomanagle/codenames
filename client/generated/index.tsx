@@ -105,7 +105,7 @@ export type QueryGameArgs = {
 };
 
 export type ResetGameInput = {
-  readonly gameId: Scalars['ID'];
+  readonly permalink?: Maybe<Scalars['String']>;
 };
 
 export enum Role {
@@ -133,8 +133,8 @@ export enum Team {
 export type User = {
   readonly __typename?: 'User';
   readonly _id: Scalars['ID'];
-  readonly team: Team;
-  readonly role: Role;
+  readonly team?: Maybe<Team>;
+  readonly role?: Maybe<Role>;
   readonly name?: Maybe<Scalars['String']>;
 };
 
@@ -157,7 +157,7 @@ export type EndTurnMutation = (
   { readonly __typename?: 'Mutation' }
   & { readonly EndTurn: (
     { readonly __typename?: 'Game' }
-    & Pick<Game, '_id' | 'currentTurn' | 'winner' | 'finished'>
+    & Pick<Game, '_id' | 'currentTurn' | 'winner' | 'finished' | 'permalink'>
     & { readonly words?: Maybe<ReadonlyArray<Maybe<(
       { readonly __typename?: 'Word' }
       & Pick<Word, '_id' | 'label' | 'team' | 'picked' | 'death'>
@@ -177,7 +177,7 @@ export type PickWordMutation = (
   { readonly __typename?: 'Mutation' }
   & { readonly PickWord?: Maybe<(
     { readonly __typename?: 'Game' }
-    & Pick<Game, '_id' | 'currentTurn' | 'winner' | 'finished'>
+    & Pick<Game, '_id' | 'currentTurn' | 'winner' | 'finished' | 'permalink'>
     & { readonly words?: Maybe<ReadonlyArray<Maybe<(
       { readonly __typename?: 'Word' }
       & Pick<Word, '_id' | 'label' | 'team' | 'picked' | 'death'>
@@ -228,7 +228,7 @@ export type GameUpdatedSubscription = (
   { readonly __typename?: 'Subscription' }
   & { readonly GameUpdated?: Maybe<(
     { readonly __typename?: 'Game' }
-    & Pick<Game, '_id' | 'currentTurn' | 'winner' | 'finished'>
+    & Pick<Game, '_id' | 'currentTurn' | 'winner' | 'finished' | 'permalink'>
     & { readonly words?: Maybe<ReadonlyArray<Maybe<(
       { readonly __typename?: 'Word' }
       & Pick<Word, '_id' | 'label' | 'team' | 'picked' | 'death'>
@@ -248,7 +248,7 @@ export type GameQuery = (
   { readonly __typename?: 'Query' }
   & { readonly game?: Maybe<(
     { readonly __typename?: 'Game' }
-    & Pick<Game, '_id' | 'currentTurn' | 'winner' | 'finished'>
+    & Pick<Game, '_id' | 'currentTurn' | 'winner' | 'finished' | 'permalink'>
     & { readonly words?: Maybe<ReadonlyArray<Maybe<(
       { readonly __typename?: 'Word' }
       & Pick<Word, '_id' | 'label' | 'team' | 'picked' | 'death'>
@@ -267,6 +267,7 @@ export const EndTurnDocument = gql`
     currentTurn
     winner
     finished
+    permalink
     words {
       _id
       label
@@ -333,6 +334,7 @@ export const PickWordDocument = gql`
     currentTurn
     winner
     finished
+    permalink
     words {
       _id
       label
@@ -521,6 +523,7 @@ export const GameUpdatedDocument = gql`
     currentTurn
     winner
     finished
+    permalink
     words {
       _id
       label
@@ -585,6 +588,7 @@ export const GameDocument = gql`
     currentTurn
     winner
     finished
+    permalink
     words {
       _id
       label

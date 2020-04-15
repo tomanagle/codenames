@@ -1,9 +1,14 @@
-import { Row, Col } from 'antd';
+import { Row, Col, Button } from 'antd';
 import styled from 'styled-components';
-import { Game, usePickWordMutation, User, Role, Team } from '../generated';
+import {
+  Game,
+  usePickWordMutation,
+  User,
+  Role,
+  Team,
+  useEndTurnMutation
+} from '../generated';
 import GameStats from '../components/GameStats';
-
-const WordsLeft = styled.div``;
 
 function getBackgroundColour(user, word) {
   if (word.picked && word.team === Team.GREEN) {
@@ -53,15 +58,35 @@ const GameContainer = ({
   permalink: Game['permalink'];
 }) => {
   const [pickWord] = usePickWordMutation();
+  const [endTurn] = useEndTurnMutation({
+    variables: {
+      input: {
+        permalink
+      }
+    }
+  });
 
   return (
     <>
-      currentTurn: {game.currentTurn}
-      <br />
-      finished: {String(game.finished)}
-      <br />
-      winner: {String(game.winner)}
-      <GameStats game={game} />
+      {user.team === game.currentTurn && (
+        <p>Go {String(game.currentTurn).toUpperCase()} team, it's your turn.</p>
+      )}
+      {user.team !== game.currentTurn && (
+        <p>
+          It's the {String(game.currentTurn).toUpperCase()} team's turn, wait
+          for them to finish.
+        </p>
+      )}
+      <Row align="middle">
+        <Col flex="1">
+          <GameStats game={game} />
+        </Col>
+        {user.team === game.currentTurn && (
+          <Col>
+            <Button onClick={() => endTurn()}>END TURN</Button>
+          </Col>
+        )}
+      </Row>
       <Wrapper>
         {game.words.map(word => {
           return (
@@ -96,7 +121,7 @@ const GameContainer = ({
               >
                 team: {word.team}
                 <br />
-                death: {word.death}
+                death: {word.death ? 'death word' : ''}
                 <br />
                 {word.label}
               </button>

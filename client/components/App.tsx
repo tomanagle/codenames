@@ -27,7 +27,9 @@ const Header = styled(_Header)`
 
 const Content = styled(_Content)`
   padding: 10px 24px;
-  flex: 1;
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 0%;
 `;
 
 const Footer = styled(_Footer)`

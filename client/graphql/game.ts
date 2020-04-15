@@ -7,6 +7,7 @@ export const END_TURN_MUTATION = gql`
       currentTurn
       winner
       finished
+      permalink
       words {
         _id
         label
@@ -30,6 +31,7 @@ export const PICK_WORD_MUTATION = gql`
       currentTurn
       winner
       finished
+      permalink
       words {
         _id
         label
@@ -90,6 +92,7 @@ export const GAME_SUBSCRIPTION = gql`
       currentTurn
       winner
       finished
+      permalink
       words {
         _id
         label
@@ -114,6 +117,7 @@ export const GAME_QUERY = gql`
       currentTurn
       winner
       finished
+      permalink
       words {
         _id
         label

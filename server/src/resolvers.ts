@@ -10,6 +10,8 @@ import {
     EndTurnInput,
     getGame,
     GetGameInput,
+    resetGame,
+    ResetGameInput,
 } from './controllers/game.controller'
 import {} from './constants'
 import { pubsub } from './app'
@@ -43,8 +45,6 @@ const resolvers = {
         game: (_: null, { input }: { input: GetGameInput }) => {
             return getGame(input)
         },
-        // cards: (_: null, { input }: { input: GetAllCardsInput }) =>
-        //     getAllCards({ ...input }),
     },
     Mutation: {
         StartGame: () => {
@@ -57,8 +57,10 @@ const resolvers = {
             return pickWord(input)
         },
         EndTurn: (_: null, { input }: { input: EndTurnInput }) => {
-            console.log({ input })
             return endTurn(input)
+        },
+        ResetGame: (_: null, { input }: { input: ResetGameInput }) => {
+            return resetGame(input)
         },
     },
     Game: {

@@ -11,7 +11,7 @@ function shuffle(array: any) {
     return array.sort(() => Math.random() - 0.5).sort(() => Math.random() - 0.5)
 }
 
-export async function startGame() {
+async function getGameWords() {
     const words: Word[] = await word
         .aggregate([{ $sample: { size: 25 } }])
         .exec()
@@ -59,6 +59,18 @@ export async function startGame() {
             death: false,
         }
     })
+
+    return { restWords, deathWord, greenWords, redWords, starts }
+}
+
+export async function startGame() {
+    const {
+        restWords,
+        deathWord,
+        greenWords,
+        redWords,
+        starts,
+    } = await getGameWords()
 
     return Game.create({
         currentTurn: starts === Team.red ? Team.red : Team.green,
@@ -140,7 +152,6 @@ export async function pickWord({ word, user, permalink }: PickWordInput) {
     const player = await User.findById(user)
         .lean()
         .exec()
-    console.log({ player })
     if (game.currentTurn !== player.team) {
         return game
     }
@@ -252,4 +263,51 @@ export async function getGame({ permalink }: GetGameInput) {
         .populate('users')
         .lean()
         .exec()
+}
+
+export interface ResetGameInput {
+    permalink: string
+}
+
+export async function resetGame({ permalink }: ResetGameInput) {
+    const {
+        restWords,
+        deathWord,
+        greenWords,
+        redWords,
+        starts,
+    } = await getGameWords()
+
+    const game = await Game.findOneAndUpdate(
+        { permalink },
+        {
+            $set: {
+                currentTurn: starts === Team.red ? Team.red : Team.green,
+                words: shuffle([
+                    ...redWords,
+                    ...greenWords,
+                    ...deathWord,
+                    ...restWords,
+                ]),
+            },
+        },
+        { new: true }
+    ).exec()
+
+    await User.updateMany(
+        { game: game._id },
+        {
+            $unset: {
+                team: '',
+                role: '',
+            },
+        }
+    )
+
+
+    const updatedGame = await Game.findById(game._id).lean().exec()
+
+    pubsub.publish(GAME_UPDATED, { GameUpdated: updatedGame })
+
+    return updatedGame
 }

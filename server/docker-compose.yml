@@ -1,0 +1,12 @@
+version: '3'
+services:
+  codenames-server:
+    environment: 
+      - NODE_ENV=production
+    env_file:
+      - .env
+    build:
+      context: .
+    image: codenames-server
+    ports:
+     - "4000:4000"

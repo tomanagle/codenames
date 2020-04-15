@@ -132,7 +132,7 @@ const JoinGame = ({ permalink, setUser, visible, users }) => {
             {availableRoles.map(item => {
               return (
                 <Radio.Button
-                  key={`choose_role_team${item.role}-${item.tem}`}
+                  key={`choose_role_team-${item.role}-${item.team}`}
                   value={`${item.role}-${item.team}`}
                   onChange={() => {
                     setRole(item.role);

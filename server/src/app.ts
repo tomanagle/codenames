@@ -6,7 +6,7 @@ import { NextFunction } from 'connect'
 import { GraphQLError } from 'graphql'
 import { ApolloServer as _ApolloServer } from 'apollo-server-express'
 import { PubSub } from 'apollo-server-express'
-import { CORS_ORIGIN } from './constants'
+import { CORS_ORIGIN, IS_DEBUG } from './constants'
 import connect from './database/connect'
 import methodOverride from 'method-override'
 import resolvers from './resolvers'
@@ -19,7 +19,8 @@ export const pubsub = new PubSub()
 const ApolloServer = new _ApolloServer({
     typeDefs,
     resolvers,
-
+    playground: IS_DEBUG,
+    tracing: IS_DEBUG,
     /*
      * GraphQL errors can be formatted into any shape you want. Available fields are on GraphQLError
      */

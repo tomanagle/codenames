@@ -27,8 +27,8 @@ const typeDefs = gql`
 
     type User {
         _id: ID!
-        team: Team!
-        role: Role!
+        team: Team
+        role: Role
         name: String
     }
 
@@ -63,9 +63,6 @@ const typeDefs = gql`
         user: ID!
         permalink: String!
     }
-    input ResetGameInput {
-        gameId: ID!
-    }
 
     input JoinGameInput {
         permalink: String!
@@ -76,6 +73,9 @@ const typeDefs = gql`
 
     input EndTurnInput {
         permalink: String!
+    }
+    input ResetGameInput {
+        permalink: String
     }
 
     type Mutation {
