@@ -2,8 +2,10 @@
     "apps": [
         {
             "name": "codenames-server",
-            "script": "dist/app.js",
+            "script": "dist/src/app.js",
             "watch": false,
+            "instances": "max",
+            "exec_mode": "cluster",
             "env": {
                 "NODE_ENV": "production"
             }
