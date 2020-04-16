@@ -287,6 +287,7 @@ export async function resetGame({ permalink }: ResetGameInput) {
             $set: {
                 finished: false,
                 winner: null,
+                users: [],
                 currentTurn: starts === Team.red ? Team.red : Team.green,
                 words: shuffle([
                     ...redWords,
@@ -299,15 +300,7 @@ export async function resetGame({ permalink }: ResetGameInput) {
         { new: true }
     ).exec()
 
-    await User.updateMany(
-        { game: game._id },
-        {
-            $unset: {
-                team: '',
-                role: '',
-            },
-        }
-    )
+    await User.deleteMany({ game: game._id }).exec()
 
     const updatedGame = await Game.findById(game._id)
         .lean()
