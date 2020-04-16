@@ -1,12 +1,34 @@
 import { Result, Button, Modal } from 'antd';
-
-const Winner = ({ winner, players }) => {
+import { useResetGameMutation } from '../generated';
+const Winner = ({ winner, players, permalink }) => {
   if (!winner || !players.length) {
     return <div />;
   }
 
+  const [restartGame, { loading }] = useResetGameMutation({
+    variables: {
+      input: {
+        permalink
+      }
+    }
+  });
+
   return (
-    <Modal visible={!!winner}>
+    <Modal
+      visible={true || !!winner}
+      closable={false}
+      maskClosable={false}
+      footer={[
+        <Button
+          key="restart-game-cta"
+          type="primary"
+          loading={loading}
+          onClick={() => restartGame()}
+        >
+          NEW GAME
+        </Button>
+      ]}
+    >
       <Result
         status="success"
         title={`The ${String(winner).toUpperCase()} team are the winners`}

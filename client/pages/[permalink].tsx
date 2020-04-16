@@ -93,8 +93,10 @@ const GamePage = ({ query: { permalink } }) => {
         <Winner
           winner={game.winner}
           players={users.filter(item => item.team === game.winner)}
+          permalink={permalink}
         />
       ) : null}
+
       {(!user || !user.role || !user.team) && readyUsers.length !== 4 && (
         <JoinGame
           users={users}

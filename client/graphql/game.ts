@@ -134,3 +134,28 @@ export const GAME_QUERY = gql`
     }
   }
 `;
+
+export const RESTART_GAME_MUTATION = gql`
+  mutation ResetGame($input: ResetGameInput!) {
+    ResetGame(input: $input) {
+      _id
+      currentTurn
+      winner
+      finished
+      permalink
+      words {
+        _id
+        label
+        team
+        picked
+        death
+      }
+      users {
+        _id
+        role
+        team
+        name
+      }
+    }
+  }
+`;

@@ -259,6 +259,26 @@ export type GameQuery = (
   )> }
 );
 
+export type ResetGameMutationVariables = {
+  input: ResetGameInput;
+};
+
+
+export type ResetGameMutation = (
+  { readonly __typename?: 'Mutation' }
+  & { readonly ResetGame: (
+    { readonly __typename?: 'Game' }
+    & Pick<Game, '_id' | 'currentTurn' | 'winner' | 'finished' | 'permalink'>
+    & { readonly words?: Maybe<ReadonlyArray<Maybe<(
+      { readonly __typename?: 'Word' }
+      & Pick<Word, '_id' | 'label' | 'team' | 'picked' | 'death'>
+    )>>>, readonly users?: Maybe<ReadonlyArray<Maybe<(
+      { readonly __typename?: 'User' }
+      & Pick<User, '_id' | 'role' | 'team' | 'name'>
+    )>>> }
+  ) }
+);
+
 
 export const EndTurnDocument = gql`
     mutation EndTurn($input: EndTurnInput!) {
@@ -650,3 +670,71 @@ export function useGameLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOpt
 export type GameQueryHookResult = ReturnType<typeof useGameQuery>;
 export type GameLazyQueryHookResult = ReturnType<typeof useGameLazyQuery>;
 export type GameQueryResult = ApolloReactCommon.QueryResult<GameQuery, GameQueryVariables>;
+export const ResetGameDocument = gql`
+    mutation ResetGame($input: ResetGameInput!) {
+  ResetGame(input: $input) {
+    _id
+    currentTurn
+    winner
+    finished
+    permalink
+    words {
+      _id
+      label
+      team
+      picked
+      death
+    }
+    users {
+      _id
+      role
+      team
+      name
+    }
+  }
+}
+    `;
+export type ResetGameMutationFn = ApolloReactCommon.MutationFunction<ResetGameMutation, ResetGameMutationVariables>;
+export type ResetGameComponentProps = Omit<ApolloReactComponents.MutationComponentOptions<ResetGameMutation, ResetGameMutationVariables>, 'mutation'>;
+
+    export const ResetGameComponent = (props: ResetGameComponentProps) => (
+      <ApolloReactComponents.Mutation<ResetGameMutation, ResetGameMutationVariables> mutation={ResetGameDocument} {...props} />
+    );
+    
+export type ResetGameProps<TChildProps = {}, TDataName extends string = 'mutate'> = {
+      [key in TDataName]: ApolloReactCommon.MutationFunction<ResetGameMutation, ResetGameMutationVariables>
+    } & TChildProps;
+export function withResetGame<TProps, TChildProps = {}, TDataName extends string = 'mutate'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  ResetGameMutation,
+  ResetGameMutationVariables,
+  ResetGameProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withMutation<TProps, ResetGameMutation, ResetGameMutationVariables, ResetGameProps<TChildProps, TDataName>>(ResetGameDocument, {
+      alias: 'resetGame',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useResetGameMutation__
+ *
+ * To run a mutation, you first call `useResetGameMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useResetGameMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [resetGameMutation, { data, loading, error }] = useResetGameMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useResetGameMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<ResetGameMutation, ResetGameMutationVariables>) {
+        return ApolloReactHooks.useMutation<ResetGameMutation, ResetGameMutationVariables>(ResetGameDocument, baseOptions);
+      }
+export type ResetGameMutationHookResult = ReturnType<typeof useResetGameMutation>;
+export type ResetGameMutationResult = ApolloReactCommon.MutationResult<ResetGameMutation>;
+export type ResetGameMutationOptions = ApolloReactCommon.BaseMutationOptions<ResetGameMutation, ResetGameMutationVariables>;

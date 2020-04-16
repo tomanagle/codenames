@@ -85,6 +85,11 @@ const Tile = styled.div`
     color: #fff;
   }
 
+  button.role__spymaster.picked__false.is_death__true {
+    background-color: #ccc;
+    color: #000;
+  }
+
   button.word-team__none.picked__true {
     background-color: #e040fb;
     color: #fff;
@@ -106,7 +111,7 @@ const GameContainer = ({
       setLoading('');
     }
   });
-  const [endTurn] = useEndTurnMutation({
+  const [endTurn, { loading: endTurnLoading }] = useEndTurnMutation({
     variables: {
       input: {
         permalink
@@ -124,7 +129,7 @@ const GameContainer = ({
               ? `Give your team mate a one word clue to help them file all the ${String(
                   game.currentTurn
                 ).toUpperCase()} words.`
-              : `Use your Spymaster;s clue to find all the ${String(
+              : `Use your Spymaster's clue to find all the ${String(
                   game.currentTurn
                 ).toUpperCase()} words.`
           }
@@ -133,7 +138,9 @@ const GameContainer = ({
       )}
       {user.team !== game.currentTurn && (
         <Alert
-          message="Info Text"
+          message={`Wait for the ${String(
+            game.currentTurn
+          ).toUpperCase()} team`}
           description={`It's the ${String(
             game.currentTurn
           ).toUpperCase()} team's turn, wait
@@ -148,7 +155,9 @@ const GameContainer = ({
         </Col>
         {user.team === game.currentTurn && (
           <Col>
-            <Button onClick={() => endTurn()}>END TURN</Button>
+            <Button loading={endTurnLoading} onClick={() => endTurn()}>
+              END TURN
+            </Button>
           </Col>
         )}
       </Row>
