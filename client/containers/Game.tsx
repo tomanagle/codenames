@@ -41,6 +41,7 @@ const Tile = styled.div`
     cursor: pointer;
     background-color: #fff;
     border: solid 1px #ccc;
+    color: #333;
   }
 
   button:disabled {
@@ -73,8 +74,8 @@ const Tile = styled.div`
   }
 
   button.word-team__none.picked__true {
-    background-color: #f8f8f8;
-    color: #000;
+    background-color: #e040fb;
+    color: #333;
   }
 `;
 
