@@ -52,6 +52,11 @@ const Tile = styled.div`
     color: #ff1744;
   }
 
+  button.role__spymaster.team__green.word-team__green.picked__false {
+    background-color: #fff;
+    color: #00c853;
+  }
+
   button.word-team__red.picked__true {
     background-color: #ff1744;
     color: #fff;
