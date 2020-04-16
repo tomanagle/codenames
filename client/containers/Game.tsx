@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Row, Col, Button, Spin } from 'antd';
+import { Row, Col, Button, Spin, Alert } from 'antd';
 import styled from 'styled-components';
 import {
   Game,
@@ -33,6 +33,10 @@ const Tile = styled.div`
   width: 20%;
   text-align: center;
 
+  @media screen and (max-width: 599px) {
+    width: 33.33%;
+  }
+
   button {
     width: 100%;
     padding: 1rem;
@@ -42,6 +46,14 @@ const Tile = styled.div`
     background-color: #fff;
     border: solid 1px #ccc;
     color: #333;
+    height: 100%;
+  }
+
+  @media screen and (max-width: 599px) {
+    button {
+      font-size: 0.75rem;
+      padding: 0.5rem;
+    }
   }
 
   button:disabled {
@@ -75,7 +87,7 @@ const Tile = styled.div`
 
   button.word-team__none.picked__true {
     background-color: #e040fb;
-    color: #333;
+    color: #fff;
   }
 `;
 
@@ -105,14 +117,31 @@ const GameContainer = ({
   return (
     <>
       {user.team === game.currentTurn && (
-        <p>Go {String(game.currentTurn).toUpperCase()} team, it's your turn.</p>
+        <Alert
+          message="It's your turn!"
+          description={
+            user.role === Role.SPYMASTER
+              ? `Give your team mate a one word clue to help them file all the ${String(
+                  game.currentTurn
+                ).toUpperCase()} words.`
+              : `Use your Spymaster;s clue to find all the ${String(
+                  game.currentTurn
+                ).toUpperCase()} words.`
+          }
+          type="success"
+        />
       )}
       {user.team !== game.currentTurn && (
-        <p>
-          It's the {String(game.currentTurn).toUpperCase()} team's turn, wait
-          for them to finish.
-        </p>
+        <Alert
+          message="Info Text"
+          description={`It's the ${String(
+            game.currentTurn
+          ).toUpperCase()} team's turn, wait
+      for them to finish.`}
+          type="info"
+        />
       )}
+      <br />
       <Row align="middle">
         <Col flex="1">
           <GameStats game={game} />
@@ -126,7 +155,7 @@ const GameContainer = ({
       <Wrapper>
         {game.words.map(word => {
           return (
-            <Tile xs={6} sm={6} md={6} lg={6} xl={6} key={`word__${word._id}`}>
+            <Tile key={`word__${word._id}`}>
               <button
                 className={`role__${user.role} team__${user.team} word-team__${
                   word.team

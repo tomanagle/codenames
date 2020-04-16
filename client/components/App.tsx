@@ -27,10 +27,14 @@ const Header = styled(_Header)`
 `;
 
 const Content = styled(_Content)`
-  padding: 10px 24px;
+  padding: 10px 10px;
   flex-grow: 1;
   flex-shrink: 1;
   flex-basis: 0%;
+
+  @media screen and (max-width: 599px) {
+    padding: 5px 5px;
+  }
 `;
 
 const Footer = styled(_Footer)`
