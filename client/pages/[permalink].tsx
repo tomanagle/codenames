@@ -63,12 +63,15 @@ const GamePage = ({ query: { permalink } }) => {
   useEffect(() => {
     if (users && user) {
       const thisUser = users.filter(item => item._id === user._id)[0];
-      setUser(thisUser);
 
-      localStorage.setItem(
-        `${permalink}codenamesuser`,
-        JSON.stringify(thisUser)
-      );
+      if (thisUser) {
+        setUser(thisUser);
+
+        localStorage.setItem(
+          `${permalink}codenamesuser`,
+          JSON.stringify(thisUser)
+        );
+      }
     }
   }, [users]);
 
