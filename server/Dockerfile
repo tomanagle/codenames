@@ -15,4 +15,4 @@ RUN npm run-script build
 EXPOSE 4000
 
 # node cmd is run through env consul in envconsul-launch
-CMD ["node", "./dist/app.js"]
+CMD ["node", "./dist/src/app.js"]

@@ -6,7 +6,7 @@ services:
     env_file:
       - .env
     build:
-      context: .
+      context: ./
     image: codenames-server
     ports:
      - "4000:4000"
