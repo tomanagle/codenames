@@ -1,6 +1,5 @@
 import * as Sentry from '@sentry/node';
 import { SENTRY_DSN, IS_SERVER, IS_DEV } from '../constants';
-import { get } from 'lodash';
 
 function initSentry() {
   Sentry.init({

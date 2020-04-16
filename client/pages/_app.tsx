@@ -4,8 +4,12 @@ import withGA from 'next-ga';
 import NProgress from 'nprogress';
 import { ApolloProvider } from '@apollo/react-hooks';
 import Router from 'next/router';
+import * as Sentry from '@sentry/node';
 import withApolloClient from '../lib/with-apollo-client';
 import { GA_ID } from '../constants';
+import initSentry from '../lib/sentry';
+
+initSentry();
 
 Router.events.on('routeChangeStart', () => {
   NProgress.start();
@@ -27,6 +31,18 @@ class MyApp extends App {
     pageProps.query = ctx.query;
 
     return { pageProps };
+  }
+
+  componentDidCatch(error, errorInfo) {
+    Sentry.withScope(scope => {
+      Object.keys(errorInfo).forEach(key => {
+        scope.setExtra(key, errorInfo[key]);
+      });
+
+      Sentry.captureException(error);
+    });
+
+    super.componentDidCatch(error, errorInfo);
   }
 
   render() {

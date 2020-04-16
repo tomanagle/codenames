@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Result } from 'antd';
+import { Result, Input, Button, message, Form } from 'antd';
 import Error from 'next/error';
 import { get } from 'lodash';
+import styled from 'styled-components';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import App from '../components/App';
 import {
   useGameQuery,
   useGameUpdatedSubscription,
-  useJoinGameMutation,
-  Role,
   Team,
   Game
 } from '../generated';
@@ -15,6 +15,18 @@ import GameContainer from '../containers/Game';
 import JoinGame from '../containers/JoinGame';
 import Winner from '../containers/Winner';
 import Loading from '../containers/Loading';
+
+const WaitingWrapper = styled.div`
+  display: flex;
+  width: 100%;
+  max-width: 30rem;
+  margin: 0 auto;
+  flex-direction: column;
+`;
+
+const CopyWrapper = styled.div`
+  display: flex;
+`;
 
 const GamePage = ({ query: { permalink } }) => {
   const [user, setUser] = useState(null);
@@ -99,12 +111,36 @@ const GamePage = ({ query: { permalink } }) => {
           game={game}
         />
       ) : (
-        <Result
-          title={`Not enough players to start`}
-          subTitle={`We currently have ${users.length} player${
-            readyUsers.length === 1 ? '' : 's'
-          } in the room. We need 4 to start.`}
-        />
+        <WaitingWrapper>
+          <Result
+            title={`Not enough players to start`}
+            subTitle={`We currently have ${users.length} player${
+              readyUsers.length === 1 ? '' : 's'
+            } in the room. We need 4 to start.`}
+          />
+          <p>
+            To play with friends they will need to join the same game. Copy the
+            link below and share it with your friends.
+          </p>
+
+          <CopyWrapper>
+            <Input
+              value={`https://playcodenames.online/${permalink}`}
+              id="game-url"
+            />
+            <CopyToClipboard
+              text={`https://playcodenames.online/${permalink}`}
+              onCopy={() =>
+                message.success(
+                  'Copied to clipboard. Now share it with your friends!',
+                  30
+                )
+              }
+            >
+              <Button>Copy to clipboard</Button>
+            </CopyToClipboard>
+          </CopyWrapper>
+        </WaitingWrapper>
       )}
     </App>
   );

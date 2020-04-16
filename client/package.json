@@ -48,6 +48,7 @@
     "nprogress": "^0.2.0",
     "null-loader": "^3.0.0",
     "react": "^16.13.1",
+    "react-copy-to-clipboard": "^5.0.2",
     "react-dom": "^16.13.1",
     "styled-components": "^5.1.0",
     "subscriptions-transport-ws": "^0.9.16"

@@ -180,7 +180,8 @@ config.publicRuntimeConfig = {
   WEBSOCKET_BASE_URL:
     process.env.WEBSOCKET_BASE_URL || 'ws://localhost:4000/graphql',
   // Google Analytics UA-
-  GA_ID: process.env.GA_ID || ''
+  GA_ID: process.env.GA_ID || '',
+  SENTRY_DSN: process.env.SENTRY_DSN
 };
 
 module.exports = config;
