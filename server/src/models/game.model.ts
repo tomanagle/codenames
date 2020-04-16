@@ -1,12 +1,13 @@
 import mongoose, { Document } from 'mongoose'
 import shortid from 'shortid'
 import { User, Team } from './user.model'
-import { Word } from './word.model'
+import { Word, Language } from './word.model'
 
 export interface IGame extends Document {
     title: string
     permalink: string
     finished: boolean
+    language: Language
     winner: Team
     currentTurn: Team
     words: Word[]
@@ -17,6 +18,11 @@ const Schema = new mongoose.Schema(
     {
         title: String,
         currentTurn: { type: String, enum: ['red', 'green'] },
+        language: {
+            type: String,
+            default: 'English',
+            enum: ['English', 'Adult'],
+        },
         winner: {
             type: String,
             enum: ['red', 'green', 'none'],
@@ -34,7 +40,6 @@ const Schema = new mongoose.Schema(
         finished: { type: Boolean, default: false },
         permalink: { type: String, default: shortid.generate },
     },
-    // Adds createdAt and updatedAt to the model
     { timestamps: true }
 )
 

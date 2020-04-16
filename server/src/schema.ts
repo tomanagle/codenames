@@ -49,6 +49,7 @@ const typeDefs = gql`
         currentTurn: Team
         winner: Team
         finished: Boolean
+        language: Language
     }
     input GetGameInput {
         permalink: String!
@@ -78,8 +79,12 @@ const typeDefs = gql`
         permalink: String
     }
 
+    input StartGameInput {
+        language: Language
+    }
+
     type Mutation {
-        StartGame: Game
+        StartGame(input: StartGameInput): Game!
         JoinGame(input: JoinGameInput!): User!
         PickWord(input: PickWordInput!): Game
         ResetGame(input: ResetGameInput!): Game!

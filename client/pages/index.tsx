@@ -1,8 +1,9 @@
-import { Button } from 'antd';
+import * as React from 'react';
+import { Button, Radio } from 'antd';
 import { useRouter } from 'next/router';
 import styled from 'styled-components';
 import App from '../components/App';
-import { useStartGameMutation } from '../generated';
+import { useStartGameMutation, Language } from '../generated';
 import Head from 'next/head';
 
 const Wrapper = styled.div`
@@ -41,8 +42,14 @@ const Wrapper = styled.div`
 
 const Home = () => {
   const router = useRouter();
+  const [language, setLanguage] = React.useState(Language.ENGLISH);
 
   const [startGame, { loading }] = useStartGameMutation({
+    variables: {
+      input: {
+        language
+      }
+    },
     onCompleted: data => {
       return router.push('/[permalink]', `/${data.StartGame.permalink}`);
     }
@@ -62,9 +69,26 @@ const Home = () => {
         <div className="inner">
           <h1>Playing codenames online with friends</h1>
           <p>
-            Play Codenames Online with friends. To get started, click 'START
-            GAME' and share the link with your friends.
+            To get started playing codenames online with your friends,
+            <ol>
+              <li>Select your language</li>
+              <li>Click 'START GAME'</li>
+              <li>Select your team and role</li>
+              <li>Share the link with your friends</li>
+              <li>Start playing Codenames</li>
+            </ol>
           </p>
+
+          <Radio.Group
+            onChange={e => setLanguage(e.target.value)}
+            value={language}
+            style={{ width: '100%' }}
+          >
+            <Radio.Button value={Language.ENGLISH}>
+              Family Friendly
+            </Radio.Button>
+            <Radio.Button value={Language.ADULT}>{Language.ADULT}</Radio.Button>
+          </Radio.Group>
           <br />
           <Button type="primary" loading={loading} onClick={() => startGame()}>
             START GAME

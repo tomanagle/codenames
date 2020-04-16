@@ -11,19 +11,13 @@ import {
 } from '../generated';
 import GameStats from '../components/GameStats';
 
-function getBackgroundColour(user, word) {
-  if (word.picked && word.team === Team.GREEN) {
-    return 'green';
-  }
+const GameWrapper = styled.div`
+  width: 100%;
+  max-width: 60rem;
+  margin: 0 auto;
+`;
 
-  if (word.picked && word.team === Team.RED) {
-    return 'red';
-  }
-
-  return 'transparent';
-}
-
-const Wrapper = styled.div`
+const GameBoardWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
@@ -32,10 +26,6 @@ const Wrapper = styled.div`
 const Tile = styled.div`
   width: 20%;
   text-align: center;
-
-  @media screen and (max-width: 599px) {
-    width: 33.33%;
-  }
 
   button {
     width: 100%;
@@ -51,7 +41,7 @@ const Tile = styled.div`
 
   @media screen and (max-width: 599px) {
     button {
-      font-size: 0.75rem;
+      font-size: 0.5rem;
       padding: 0.5rem;
     }
   }
@@ -120,7 +110,7 @@ const GameContainer = ({
   });
 
   return (
-    <>
+    <GameWrapper>
       {user.team === game.currentTurn && (
         <Alert
           message="It's your turn!"
@@ -161,7 +151,7 @@ const GameContainer = ({
           </Col>
         )}
       </Row>
-      <Wrapper>
+      <GameBoardWrapper>
         {game.words.map(word => {
           return (
             <Tile key={`word__${word._id}`}>
@@ -193,8 +183,8 @@ const GameContainer = ({
             </Tile>
           );
         })}
-      </Wrapper>
-    </>
+      </GameBoardWrapper>
+    </GameWrapper>
   );
 };
 

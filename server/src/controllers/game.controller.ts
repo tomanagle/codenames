@@ -1,6 +1,6 @@
 import Game, { IGame } from '../models/game.model'
 import User, { Team, Role } from '../models/user.model'
-import word, { Word } from '../models/word.model'
+import word, { Word, Language } from '../models/word.model'
 import { ApolloError } from 'apollo-server'
 import mongoose from 'mongoose'
 import randomName from 'node-random-name'
@@ -11,9 +11,17 @@ function shuffle(array: any) {
     return array.sort(() => Math.random() - 0.5).sort(() => Math.random() - 0.5)
 }
 
-async function getGameWords() {
+async function getGameWords({ language }) {
     const words: Word[] = await word
-        .aggregate([{ $sample: { size: 25 } }])
+        .aggregate([
+            {
+                $match: {
+                    language,
+                },
+            },
+
+            { $sample: { size: 25 } },
+        ])
         .exec()
 
     const starts = Math.floor(Math.random() * 11) >= 5 ? Team.red : Team.green
@@ -63,14 +71,18 @@ async function getGameWords() {
     return { restWords, deathWord, greenWords, redWords, starts }
 }
 
-export async function startGame() {
+export interface StartGameInput {
+    language: Language
+}
+
+export async function startGame({ language }) {
     const {
         restWords,
         deathWord,
         greenWords,
         redWords,
         starts,
-    } = await getGameWords()
+    } = await getGameWords({ language })
 
     return Game.create({
         currentTurn: starts === Team.red ? Team.red : Team.green,
@@ -273,15 +285,21 @@ export interface ResetGameInput {
 }
 
 export async function resetGame({ permalink }: ResetGameInput) {
+    const game = await Game.findOne({ permalink })
+        .lean()
+        .exec()
+
     const {
         restWords,
         deathWord,
         greenWords,
         redWords,
         starts,
-    } = await getGameWords()
+    } = await getGameWords({ language: game.language })
 
-    const game = await Game.findOneAndUpdate(
+    await User.deleteMany({ game: game._id }).exec()
+
+    const updatedGame = await Game.findOneAndUpdate(
         { permalink },
         {
             $set: {
@@ -299,12 +317,6 @@ export async function resetGame({ permalink }: ResetGameInput) {
         },
         { new: true }
     ).exec()
-
-    await User.deleteMany({ game: game._id }).exec()
-
-    const updatedGame = await Game.findById(game._id)
-        .lean()
-        .exec()
 
     pubsub.publish(GAME_UPDATED, { GameUpdated: updatedGame })
 

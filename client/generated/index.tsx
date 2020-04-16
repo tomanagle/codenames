@@ -37,6 +37,7 @@ export type Game = {
   readonly currentTurn?: Maybe<Team>;
   readonly winner?: Maybe<Team>;
   readonly finished?: Maybe<Scalars['Boolean']>;
+  readonly language?: Maybe<Language>;
 };
 
 export type GameUpdatedInput = {
@@ -61,11 +62,16 @@ export enum Language {
 
 export type Mutation = {
   readonly __typename?: 'Mutation';
-  readonly StartGame?: Maybe<Game>;
+  readonly StartGame: Game;
   readonly JoinGame: User;
   readonly PickWord?: Maybe<Game>;
   readonly ResetGame: Game;
   readonly EndTurn: Game;
+};
+
+
+export type MutationStartGameArgs = {
+  input?: Maybe<StartGameInput>;
 };
 
 
@@ -113,6 +119,10 @@ export enum Role {
   PLAYER = 'player'
 }
 
+export type StartGameInput = {
+  readonly language?: Maybe<Language>;
+};
+
 export type Subscription = {
   readonly __typename?: 'Subscription';
   readonly GameUpdated?: Maybe<Game>;
@@ -157,7 +167,7 @@ export type EndTurnMutation = (
   { readonly __typename?: 'Mutation' }
   & { readonly EndTurn: (
     { readonly __typename?: 'Game' }
-    & Pick<Game, '_id' | 'currentTurn' | 'winner' | 'finished' | 'permalink'>
+    & Pick<Game, '_id' | 'currentTurn' | 'winner' | 'finished' | 'permalink' | 'language'>
     & { readonly words?: Maybe<ReadonlyArray<Maybe<(
       { readonly __typename?: 'Word' }
       & Pick<Word, '_id' | 'label' | 'team' | 'picked' | 'death'>
@@ -177,7 +187,7 @@ export type PickWordMutation = (
   { readonly __typename?: 'Mutation' }
   & { readonly PickWord?: Maybe<(
     { readonly __typename?: 'Game' }
-    & Pick<Game, '_id' | 'currentTurn' | 'winner' | 'finished' | 'permalink'>
+    & Pick<Game, '_id' | 'currentTurn' | 'winner' | 'finished' | 'permalink' | 'language'>
     & { readonly words?: Maybe<ReadonlyArray<Maybe<(
       { readonly __typename?: 'Word' }
       & Pick<Word, '_id' | 'label' | 'team' | 'picked' | 'death'>
@@ -201,14 +211,16 @@ export type JoinGameMutation = (
   ) }
 );
 
-export type StartGameMutationVariables = {};
+export type StartGameMutationVariables = {
+  input?: Maybe<StartGameInput>;
+};
 
 
 export type StartGameMutation = (
   { readonly __typename?: 'Mutation' }
-  & { readonly StartGame?: Maybe<(
+  & { readonly StartGame: (
     { readonly __typename?: 'Game' }
-    & Pick<Game, '_id' | 'permalink' | 'currentTurn' | 'winner' | 'finished'>
+    & Pick<Game, '_id' | 'currentTurn' | 'winner' | 'finished' | 'permalink' | 'language'>
     & { readonly words?: Maybe<ReadonlyArray<Maybe<(
       { readonly __typename?: 'Word' }
       & Pick<Word, '_id' | 'label' | 'team' | 'picked' | 'death'>
@@ -216,7 +228,7 @@ export type StartGameMutation = (
       { readonly __typename?: 'User' }
       & Pick<User, '_id' | 'name' | 'role' | 'team'>
     )>>> }
-  )> }
+  ) }
 );
 
 export type GameUpdatedSubscriptionVariables = {
@@ -228,7 +240,7 @@ export type GameUpdatedSubscription = (
   { readonly __typename?: 'Subscription' }
   & { readonly GameUpdated?: Maybe<(
     { readonly __typename?: 'Game' }
-    & Pick<Game, '_id' | 'currentTurn' | 'winner' | 'finished' | 'permalink'>
+    & Pick<Game, '_id' | 'currentTurn' | 'winner' | 'finished' | 'permalink' | 'language'>
     & { readonly words?: Maybe<ReadonlyArray<Maybe<(
       { readonly __typename?: 'Word' }
       & Pick<Word, '_id' | 'label' | 'team' | 'picked' | 'death'>
@@ -248,7 +260,7 @@ export type GameQuery = (
   { readonly __typename?: 'Query' }
   & { readonly game?: Maybe<(
     { readonly __typename?: 'Game' }
-    & Pick<Game, '_id' | 'currentTurn' | 'winner' | 'finished' | 'permalink'>
+    & Pick<Game, '_id' | 'currentTurn' | 'winner' | 'finished' | 'permalink' | 'language'>
     & { readonly words?: Maybe<ReadonlyArray<Maybe<(
       { readonly __typename?: 'Word' }
       & Pick<Word, '_id' | 'label' | 'team' | 'picked' | 'death'>
@@ -268,7 +280,7 @@ export type ResetGameMutation = (
   { readonly __typename?: 'Mutation' }
   & { readonly ResetGame: (
     { readonly __typename?: 'Game' }
-    & Pick<Game, '_id' | 'currentTurn' | 'winner' | 'finished' | 'permalink'>
+    & Pick<Game, '_id' | 'currentTurn' | 'winner' | 'finished' | 'permalink' | 'language'>
     & { readonly words?: Maybe<ReadonlyArray<Maybe<(
       { readonly __typename?: 'Word' }
       & Pick<Word, '_id' | 'label' | 'team' | 'picked' | 'death'>
@@ -288,6 +300,7 @@ export const EndTurnDocument = gql`
     winner
     finished
     permalink
+    language
     words {
       _id
       label
@@ -355,6 +368,7 @@ export const PickWordDocument = gql`
     winner
     finished
     permalink
+    language
     words {
       _id
       label
@@ -469,13 +483,14 @@ export type JoinGameMutationHookResult = ReturnType<typeof useJoinGameMutation>;
 export type JoinGameMutationResult = ApolloReactCommon.MutationResult<JoinGameMutation>;
 export type JoinGameMutationOptions = ApolloReactCommon.BaseMutationOptions<JoinGameMutation, JoinGameMutationVariables>;
 export const StartGameDocument = gql`
-    mutation StartGame {
-  StartGame {
+    mutation StartGame($input: StartGameInput) {
+  StartGame(input: $input) {
     _id
-    permalink
     currentTurn
     winner
     finished
+    permalink
+    language
     words {
       _id
       label
@@ -488,7 +503,6 @@ export const StartGameDocument = gql`
       name
       role
       team
-      name
     }
   }
 }
@@ -527,6 +541,7 @@ export function withStartGame<TProps, TChildProps = {}, TDataName extends string
  * @example
  * const [startGameMutation, { data, loading, error }] = useStartGameMutation({
  *   variables: {
+ *      input: // value for 'input'
  *   },
  * });
  */
@@ -544,6 +559,7 @@ export const GameUpdatedDocument = gql`
     winner
     finished
     permalink
+    language
     words {
       _id
       label
@@ -609,6 +625,7 @@ export const GameDocument = gql`
     winner
     finished
     permalink
+    language
     words {
       _id
       label
@@ -678,6 +695,7 @@ export const ResetGameDocument = gql`
     winner
     finished
     permalink
+    language
     words {
       _id
       label

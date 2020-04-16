@@ -17,6 +17,7 @@ type Game {
   currentTurn: Team
   winner: Team
   finished: Boolean
+  language: Language
 }
 
 input GameUpdatedInput {
@@ -40,7 +41,7 @@ enum Language {
 }
 
 type Mutation {
-  StartGame: Game
+  StartGame(input: StartGameInput): Game!
   JoinGame(input: JoinGameInput!): User!
   PickWord(input: PickWordInput!): Game
   ResetGame(input: ResetGameInput!): Game!
@@ -64,6 +65,10 @@ input ResetGameInput {
 enum Role {
   spymaster
   player
+}
+
+input StartGameInput {
+  language: Language
 }
 
 type Subscription {

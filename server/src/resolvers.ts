@@ -12,6 +12,7 @@ import {
     GetGameInput,
     resetGame,
     ResetGameInput,
+    StartGameInput,
 } from './controllers/game.controller'
 import {} from './constants'
 import { pubsub } from './app'
@@ -47,8 +48,8 @@ const resolvers = {
         },
     },
     Mutation: {
-        StartGame: () => {
-            return startGame()
+        StartGame: (_: null, { input }: { input: StartGameInput }) => {
+            return startGame(input)
         },
         JoinGame: (_: null, { input }: { input: JoinGameInput }) => {
             return joinGame(input)

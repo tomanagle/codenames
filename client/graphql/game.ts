@@ -8,6 +8,7 @@ export const END_TURN_MUTATION = gql`
       winner
       finished
       permalink
+      language
       words {
         _id
         label
@@ -32,6 +33,7 @@ export const PICK_WORD_MUTATION = gql`
       winner
       finished
       permalink
+      language
       words {
         _id
         label
@@ -60,13 +62,14 @@ export const JOIN_GAME_MUTATION = gql`
 `;
 
 export const START_GAME_MUTATION = gql`
-  mutation StartGame {
-    StartGame {
+  mutation StartGame($input: StartGameInput) {
+    StartGame(input: $input) {
       _id
-      permalink
       currentTurn
       winner
       finished
+      permalink
+      language
       words {
         _id
         label
@@ -79,7 +82,6 @@ export const START_GAME_MUTATION = gql`
         name
         role
         team
-        name
       }
     }
   }
@@ -93,6 +95,7 @@ export const GAME_SUBSCRIPTION = gql`
       winner
       finished
       permalink
+      language
       words {
         _id
         label
@@ -118,6 +121,7 @@ export const GAME_QUERY = gql`
       winner
       finished
       permalink
+      language
       words {
         _id
         label
@@ -143,6 +147,7 @@ export const RESTART_GAME_MUTATION = gql`
       winner
       finished
       permalink
+      language
       words {
         _id
         label
