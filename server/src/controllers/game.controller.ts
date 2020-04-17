@@ -5,7 +5,7 @@ import { ApolloError } from 'apollo-server'
 import mongoose from 'mongoose'
 import randomName from 'node-random-name'
 import { pubsub } from '../app'
-import { GAME_UPDATED } from '../constants'
+import { GAME_UPDATED, GAME_RESET } from '../constants'
 
 function shuffle(array: any) {
     return array.sort(() => Math.random() - 0.5).sort(() => Math.random() - 0.5)
@@ -319,6 +319,8 @@ export async function resetGame({ permalink }: ResetGameInput) {
     ).exec()
 
     pubsub.publish(GAME_UPDATED, { GameUpdated: updatedGame })
+
+    pubsub.publish(GAME_RESET, { GameUpdated: updatedGame })
 
     return updatedGame
 }

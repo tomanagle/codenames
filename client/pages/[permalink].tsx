@@ -8,6 +8,7 @@ import App from '../components/App';
 import {
   useGameQuery,
   useGameUpdatedSubscription,
+  useGameResetSubscription,
   Team,
   Game
 } from '../generated';
@@ -54,6 +55,18 @@ const GamePage = ({ query: { permalink } }) => {
   });
 
   useGameUpdatedSubscription({
+    variables: {
+      input: {
+        permalink
+      }
+    }
+  });
+
+  useGameResetSubscription({
+    onSubscriptionData: () => {
+      setUser(null);
+    },
+
     variables: {
       input: {
         permalink

@@ -87,9 +87,35 @@ export const START_GAME_MUTATION = gql`
   }
 `;
 
-export const GAME_SUBSCRIPTION = gql`
+export const GAME_UPDATED_SUBSCRIPTION = gql`
   subscription GameUpdated($input: GameUpdatedInput!) {
     GameUpdated(input: $input) {
+      _id
+      currentTurn
+      winner
+      finished
+      permalink
+      language
+      words {
+        _id
+        label
+        team
+        picked
+        death
+      }
+      users {
+        _id
+        role
+        team
+        name
+      }
+    }
+  }
+`;
+
+export const GAME_RESET_SUBSCRIPTION = gql`
+  subscription GameReset($input: GameUpdatedInput!) {
+    GameReset(input: $input) {
       _id
       currentTurn
       winner

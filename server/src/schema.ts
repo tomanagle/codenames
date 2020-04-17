@@ -7,6 +7,7 @@ const typeDefs = gql`
     }
     type Subscription {
         GameUpdated(input: GameUpdatedInput!): Game
+        GameReset(input: GameUpdatedInput!): Game
     }
 
     enum Team {

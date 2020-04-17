@@ -126,10 +126,16 @@ export type StartGameInput = {
 export type Subscription = {
   readonly __typename?: 'Subscription';
   readonly GameUpdated?: Maybe<Game>;
+  readonly GameReset?: Maybe<Game>;
 };
 
 
 export type SubscriptionGameUpdatedArgs = {
+  input: GameUpdatedInput;
+};
+
+
+export type SubscriptionGameResetArgs = {
   input: GameUpdatedInput;
 };
 
@@ -239,6 +245,26 @@ export type GameUpdatedSubscriptionVariables = {
 export type GameUpdatedSubscription = (
   { readonly __typename?: 'Subscription' }
   & { readonly GameUpdated?: Maybe<(
+    { readonly __typename?: 'Game' }
+    & Pick<Game, '_id' | 'currentTurn' | 'winner' | 'finished' | 'permalink' | 'language'>
+    & { readonly words?: Maybe<ReadonlyArray<Maybe<(
+      { readonly __typename?: 'Word' }
+      & Pick<Word, '_id' | 'label' | 'team' | 'picked' | 'death'>
+    )>>>, readonly users?: Maybe<ReadonlyArray<Maybe<(
+      { readonly __typename?: 'User' }
+      & Pick<User, '_id' | 'role' | 'team' | 'name'>
+    )>>> }
+  )> }
+);
+
+export type GameResetSubscriptionVariables = {
+  input: GameUpdatedInput;
+};
+
+
+export type GameResetSubscription = (
+  { readonly __typename?: 'Subscription' }
+  & { readonly GameReset?: Maybe<(
     { readonly __typename?: 'Game' }
     & Pick<Game, '_id' | 'currentTurn' | 'winner' | 'finished' | 'permalink' | 'language'>
     & { readonly words?: Maybe<ReadonlyArray<Maybe<(
@@ -617,6 +643,72 @@ export function useGameUpdatedSubscription(baseOptions?: ApolloReactHooks.Subscr
       }
 export type GameUpdatedSubscriptionHookResult = ReturnType<typeof useGameUpdatedSubscription>;
 export type GameUpdatedSubscriptionResult = ApolloReactCommon.SubscriptionResult<GameUpdatedSubscription>;
+export const GameResetDocument = gql`
+    subscription GameReset($input: GameUpdatedInput!) {
+  GameReset(input: $input) {
+    _id
+    currentTurn
+    winner
+    finished
+    permalink
+    language
+    words {
+      _id
+      label
+      team
+      picked
+      death
+    }
+    users {
+      _id
+      role
+      team
+      name
+    }
+  }
+}
+    `;
+export type GameResetComponentProps = Omit<ApolloReactComponents.SubscriptionComponentOptions<GameResetSubscription, GameResetSubscriptionVariables>, 'subscription'>;
+
+    export const GameResetComponent = (props: GameResetComponentProps) => (
+      <ApolloReactComponents.Subscription<GameResetSubscription, GameResetSubscriptionVariables> subscription={GameResetDocument} {...props} />
+    );
+    
+export type GameResetProps<TChildProps = {}, TDataName extends string = 'data'> = {
+      [key in TDataName]: ApolloReactHoc.DataValue<GameResetSubscription, GameResetSubscriptionVariables>
+    } & TChildProps;
+export function withGameReset<TProps, TChildProps = {}, TDataName extends string = 'data'>(operationOptions?: ApolloReactHoc.OperationOption<
+  TProps,
+  GameResetSubscription,
+  GameResetSubscriptionVariables,
+  GameResetProps<TChildProps, TDataName>>) {
+    return ApolloReactHoc.withSubscription<TProps, GameResetSubscription, GameResetSubscriptionVariables, GameResetProps<TChildProps, TDataName>>(GameResetDocument, {
+      alias: 'gameReset',
+      ...operationOptions
+    });
+};
+
+/**
+ * __useGameResetSubscription__
+ *
+ * To run a query within a React component, call `useGameResetSubscription` and pass it any options that fit your needs.
+ * When your component renders, `useGameResetSubscription` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the subscription, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGameResetSubscription({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useGameResetSubscription(baseOptions?: ApolloReactHooks.SubscriptionHookOptions<GameResetSubscription, GameResetSubscriptionVariables>) {
+        return ApolloReactHooks.useSubscription<GameResetSubscription, GameResetSubscriptionVariables>(GameResetDocument, baseOptions);
+      }
+export type GameResetSubscriptionHookResult = ReturnType<typeof useGameResetSubscription>;
+export type GameResetSubscriptionResult = ApolloReactCommon.SubscriptionResult<GameResetSubscription>;
 export const GameDocument = gql`
     query game($input: GetGameInput!) {
   game(input: $input) {

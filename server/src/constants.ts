@@ -2,6 +2,7 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 export const GAME_UPDATED = 'GAME_CREATED'
+export const GAME_RESET = 'GAME_RESET'
 
 // Move this into a configuration file
 export const DATABASE_NAME = 'test-database'
