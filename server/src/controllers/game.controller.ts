@@ -125,8 +125,10 @@ export async function joinGame({ permalink, team, role, name }: JoinGameInput) {
     }).exec()
 
     if (existingTeamRole) {
-        throw new ApolloError(
-            `Sorry the ${role} role in the ${team} team has been taken. Try choosing a different role or team.`
+        throw new Error(
+            `Sorry the ${String(role).toUpperCase()} role in the ${String(
+                team
+            ).toUpperCase()} team has been taken. Try choosing a different role or team.`
         )
     }
 
@@ -138,7 +140,9 @@ export async function joinGame({ permalink, team, role, name }: JoinGameInput) {
     }).catch(() => {
         // Force the unique index
         throw new Error(
-            `Sorry the ${role} role in the ${team} team has been taken. Try choosing a different role or team.`
+            `Sorry the ${String(role).toUpperCase()} role in the ${String(
+                team
+            ).toUpperCase()} team has been taken. Try choosing a different role or team.`
         )
     })
 
