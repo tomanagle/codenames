@@ -1,4 +1,4 @@
-import styled from "styled-components"
+import styled from 'styled-components';
 
 const Wrapper = styled.div`
   a.bmc-button {
@@ -25,7 +25,7 @@ const Wrapper = styled.div`
       padding-right: 5px;
     }
   }
-`
+`;
 
 const Coffee = () => {
   return (
@@ -33,7 +33,7 @@ const Coffee = () => {
       <a
         className="bmc-button"
         target="_blank"
-        href="https://www.buymeacoffee.com/nineteen"
+        href="https://www.buymeacoffee.com/tomn"
         rel="noreferrer noopener"
       >
         <img
@@ -43,7 +43,7 @@ const Coffee = () => {
         <span>Buy me a coffee</span>
       </a>
     </Wrapper>
-  )
-}
+  );
+};
 
-export default Coffee
+export default Coffee;
