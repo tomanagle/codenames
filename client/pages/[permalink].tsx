@@ -112,7 +112,7 @@ const GamePage = ({ query: { permalink } }) => {
           visible={!user || !user.role || !user.team}
         />
       )}
-      {readyUsers.length === 4 || true ? (
+      {readyUsers.length === 4 ? (
         <GameContainer
           permalink={permalink}
           user={
