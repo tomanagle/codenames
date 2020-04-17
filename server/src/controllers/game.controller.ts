@@ -126,7 +126,7 @@ export async function joinGame({ permalink, team, role, name }: JoinGameInput) {
 
     if (existingTeamRole) {
         throw new ApolloError(
-            `A user with the role ${role} on the ${team} has already joined. Try changing your role or team!`
+            `Sorry the ${role} role in the ${team} team has been taken. Try choosing a different role or team.`
         )
     }
 
@@ -135,8 +135,11 @@ export async function joinGame({ permalink, team, role, name }: JoinGameInput) {
         team,
         role,
         game: game._id,
-    }).catch(error => {
-        throw error
+    }).catch(() => {
+        // Force the unique index
+        throw new Error(
+            `Sorry the ${role} role in the ${team} team has been taken. Try choosing a different role or team.`
+        )
     })
 
     await game.update({ $push: { users: [user._id] } }).exec()
@@ -321,6 +324,4 @@ export async function resetGame({ permalink }: ResetGameInput) {
     pubsub.publish(GAME_UPDATED, { GameUpdated: updatedGame })
 
     pubsub.publish(GAME_RESET, { GameUpdated: updatedGame })
-
-    return updatedGame
 }

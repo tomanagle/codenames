@@ -29,4 +29,6 @@ const Schema = new mongoose.Schema(
     { timestamps: true }
 )
 
+Schema.index({ team: 1, role: 1, game: 1 }, { unique: true })
+
 export default mongoose.model<User>('User', Schema)
