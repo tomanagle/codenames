@@ -49,6 +49,11 @@ class MyApp extends App {
       '%cGet the full codebase here: https://github.com/tomanagle/codenames',
       'color: #e91e63; font-size: 16px'
     );
+
+    console.log(
+      '%cIf you like the game, please support the developer by buying me a coffee: https://www.buymeacoffee.com/tomn',
+      'color: #fff;background-color: #24b5b5; font-size: 16px'
+    );
   }
   render() {
     // @ts-ignore

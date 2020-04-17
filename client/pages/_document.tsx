@@ -68,6 +68,8 @@ class MyDocument extends Document {
             themeColor="#24b5b5"
             // scale for `viewport` meta tag
             initialScale="1"
+            title="Play Codenames Online"
+            short_name=""
           />
         </Head>
         <body>
