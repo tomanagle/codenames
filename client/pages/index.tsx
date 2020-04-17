@@ -6,7 +6,7 @@ import App from '../components/App';
 import { useStartGameMutation, Language } from '../generated';
 import Head from 'next/head';
 
-const Wrapper = styled.div`
+const Background = styled.div`
   background-image: linear-gradient(
     to right top,
     #d16ba5,
@@ -27,7 +27,13 @@ const Wrapper = styled.div`
   top: 0;
   left: 0;
   width: 100%;
+  z-index: 1;
+`;
+
+const Wrapper = styled.div`
   padding: 1rem;
+  z-index: 2;
+  position: relative;
   .inner {
     width: 100%;
     max-width: 30rem;
@@ -56,13 +62,17 @@ const Home = () => {
   });
 
   return (
-    <App title="Codenames" description="Play codenames online with friends">
+    <App
+      title="Codenames"
+      description="Play codenames online with friends and family. Choose between family-friendly words or adult-only words."
+    >
       <Head>
         <script
           type="text/javascript"
           src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5e88192c0627598b"
         ></script>
       </Head>
+      <Background />
 
       <Wrapper>
         <div className="addthis_floating_share_toolbox" />
@@ -85,7 +95,7 @@ const Home = () => {
             style={{ width: '100%' }}
           >
             <Radio.Button value={Language.ENGLISH}>
-              Family Friendly
+              Family-friendly
             </Radio.Button>
             <Radio.Button value={Language.ADULT}>{Language.ADULT}</Radio.Button>
           </Radio.Group>

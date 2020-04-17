@@ -44,7 +44,7 @@ class MyDocument extends Document {
         <Head>
           <style>
             {`
-            #__next { height: 100% }
+            #__next { min-height: 100% }
           `}
           </style>
           <link
@@ -52,6 +52,15 @@ class MyDocument extends Document {
             href="https://fonts.googleapis.com/css?family=Roboto:300,400,500"
           />
           <link rel="stylesheet" type="text/css" href="/nprogress.css" />
+          <meta
+            property="og:title"
+            content="Play Codenames online with friends and family"
+          />
+          <meta property="og:type" content="website" />
+          <meta
+            property="og:image"
+            content="/images/play-codenames-online-og.png"
+          />
           <Manifest
             // path for manifest will be deploying
             href="/manifest.json"

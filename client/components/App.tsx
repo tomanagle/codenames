@@ -9,7 +9,7 @@ const { Header: _Header, Footer: _Footer, Content: _Content } = _Layout;
 const Layout = styled(_Layout)`
   display: flex;
   flex-direction: column;
-  height: 100%;
+  min-height: 100vh;
 `;
 
 const Header = styled(_Header)`
@@ -86,8 +86,9 @@ const App = ({
       {showFooter && (
         <Footer className="app__footer">
           <Row>
-            <Col span={12}>
+            <Col xs={24} sm={12} md={12} lg={12} xl={12}>
               <p>© 2020 playcodenames.online</p>
+
               <Link as="/" href="/">
                 <a>Home</a>
               </Link>
@@ -100,7 +101,7 @@ const App = ({
                 <a>Terms of service</a>
               </Link>
             </Col>
-            <Col span={12}>
+            <Col xs={24} sm={12} md={12} lg={12} xl={12}>
               <Coffee />
             </Col>
           </Row>
