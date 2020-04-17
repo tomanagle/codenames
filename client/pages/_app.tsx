@@ -44,7 +44,12 @@ class MyApp extends App {
 
     super.componentDidCatch(error, errorInfo);
   }
-
+  componentDidMount() {
+    console.log(
+      '%cGet the full codebase here: https://github.com/tomanagle/codenames',
+      'color: #e91e63; font-size: 16px'
+    );
+  }
   render() {
     // @ts-ignore
     const { Component, pageProps, apolloClient } = this.props;

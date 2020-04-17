@@ -81,7 +81,7 @@ const Tile = styled.div`
   }
 
   button.word-team__none.picked__true {
-    background-color: #e040fb;
+    background-color: #24b5b5;
     color: #fff;
   }
 `;
