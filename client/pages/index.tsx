@@ -75,20 +75,19 @@ const Home = () => {
       <Background />
 
       <Wrapper>
-        <div className="addthis_floating_share_toolbox" />
+        <div id="add-this-wrapper">
+          <div className="addthis_floating_share_toolbox" />
+        </div>
         <div className="inner">
           <h1>Playing codenames online with friends</h1>
-          <p>
-            To get started playing codenames online with your friends,
-            <ol>
-              <li>Select your language</li>
-              <li>Click 'START GAME'</li>
-              <li>Select your team and role</li>
-              <li>Share the link with your friends</li>
-              <li>Start playing Codenames</li>
-            </ol>
-          </p>
-
+          <p>To get started playing codenames online with your friends:</p>
+          <ol>
+            <li>Select your language</li>
+            <li>Click 'START GAME'</li>
+            <li>Select your team and role</li>
+            <li>Share the link with your friends</li>
+            <li>Start playing Codenames</li>
+          </ol>
           <Radio.Group
             onChange={e => setLanguage(e.target.value)}
             value={language}

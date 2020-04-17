@@ -32,6 +32,13 @@ const GamePage = ({ query: { permalink } }) => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
+    const addThisWrapper = document.getElementById('at4-share');
+    if (addThisWrapper) {
+      addThisWrapper.style.display = 'none';
+    }
+  }, []);
+
+  useEffect(() => {
     const user = localStorage.getItem(`${permalink}codenamesuser`);
     if (user) {
       setUser(JSON.parse(user));
