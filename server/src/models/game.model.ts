@@ -21,7 +21,7 @@ const Schema = new mongoose.Schema(
         language: {
             type: String,
             default: 'English',
-            enum: ['English', 'Adult'],
+            enum: Object.values(Language),
         },
         winner: {
             type: String,

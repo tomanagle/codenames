@@ -85,6 +85,7 @@ export async function startGame({ language }) {
     } = await getGameWords({ language })
 
     return Game.create({
+        language,
         currentTurn: starts === Team.red ? Team.red : Team.green,
         words: shuffle([
             ...redWords,
@@ -302,6 +303,7 @@ export async function resetGame({ permalink }: ResetGameInput) {
         greenWords,
         redWords,
         starts,
+        // TODO test language choice
     } = await getGameWords({ language: game.language })
 
     await User.deleteMany({ game: game._id }).exec()
