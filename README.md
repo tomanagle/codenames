@@ -1,3 +1,9 @@
+|          |                   |
+|----------------------|---------------------------------------|
+| API     | [![Uptime Robot status](https://img.shields.io/uptimerobot/status/m784755542-c3d7b481e9e955b0dc897efc.svg)](https://stats.uptimerobot.com/784755542)    |
+| Client    | [![Uptime Robot status](https://img.shields.io/uptimerobot/status/m784756094-75723fb05a1c7f0a0dcefbf6.svg)](https://stats.uptimerobot.com/784755542) |
+
+
 ## Introduction 😊
 A fullstack JavaScript application that emulates the popular board game Codenames.The application takes advantage of WebSockets to keep all participants in a game in sync, instead of intermittent polling.
 
