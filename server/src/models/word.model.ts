@@ -4,6 +4,10 @@ import { Team } from './user.model'
 export enum Language {
     English = 'English',
     Adult = 'Adult',
+    German = 'German',
+    Spanish = 'Spanish',
+    French = 'French',
+    Italian = 'Italian',
 }
 
 export interface Word extends Document {
@@ -18,7 +22,7 @@ export interface Word extends Document {
 const Schema = new mongoose.Schema(
     {
         label: { type: String, required: true, unique: true },
-        language: { type: String, enum: ['English', 'Adult'] },
+        language: { type: String, enum: Object.values(Language) },
     },
     // Adds createdAt and updatedAt to the model
     { timestamps: true }

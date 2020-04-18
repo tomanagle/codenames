@@ -57,7 +57,11 @@ export type JoinGameInput = {
 
 export enum Language {
   ENGLISH = 'English',
-  ADULT = 'Adult'
+  ADULT = 'Adult',
+  GERMAN = 'German',
+  SPANISH = 'Spanish',
+  FRENCH = 'French',
+  ITALIAN = 'Italian'
 }
 
 export type Mutation = {

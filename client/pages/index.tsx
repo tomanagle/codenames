@@ -94,9 +94,27 @@ const Home = () => {
             style={{ width: '100%' }}
           >
             <Radio.Button value={Language.ENGLISH}>
-              Family-friendly
+              Family-friendly (English)
             </Radio.Button>
-            <Radio.Button value={Language.ADULT}>{Language.ADULT}</Radio.Button>
+            <Radio.Button value={Language.ADULT}>
+              {Language.ADULT} (English)
+            </Radio.Button>
+
+            <Radio.Button value={Language.GERMAN}>
+              {Language.GERMAN}
+            </Radio.Button>
+
+            <Radio.Button value={Language.SPANISH}>
+              {Language.SPANISH}
+            </Radio.Button>
+
+            <Radio.Button value={Language.FRENCH}>
+              {Language.FRENCH}
+            </Radio.Button>
+
+            <Radio.Button value={Language.ITALIAN}>
+              {Language.ITALIAN}
+            </Radio.Button>
           </Radio.Group>
           <br />
           <Button type="primary" loading={loading} onClick={() => startGame()}>

@@ -24,6 +24,10 @@ const typeDefs = gql`
     enum Language {
         English
         Adult
+        German
+        Spanish
+        French
+        Italian
     }
 
     type User {

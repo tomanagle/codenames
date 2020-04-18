@@ -38,6 +38,10 @@ input JoinGameInput {
 enum Language {
   English
   Adult
+  German
+  Spanish
+  French
+  Italian
 }
 
 type Mutation {

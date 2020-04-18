@@ -61,9 +61,11 @@ const server = http.createServer(app)
 async function onListening() {
     await connect()
 
-    // setTimeout(() => {
-    //     insert()
-    // }, 5000)
+    // setTimeout(async () => {
+    //     await insert({ drop: true }).then(data => {
+    //         console.log('Finished inserting words :)')
+    //     })
+    // }, 2000)
 
     const addr = server.address()
 
