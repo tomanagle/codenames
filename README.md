@@ -1,8 +1,13 @@
-|          |                   |
-|----------------------|---------------------------------------|
-| API     | [![Uptime Robot status](https://img.shields.io/uptimerobot/status/m784755542-c3d7b481e9e955b0dc897efc.svg)](https://stats.uptimerobot.com/784755542)    |
-| Client    | [![Uptime Robot status](https://img.shields.io/uptimerobot/status/m784756094-75723fb05a1c7f0a0dcefbf6.svg)](https://stats.uptimerobot.com/784755542) |
+<div align="center">
 
+
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com) 
+[![GitHub issues](https://img.shields.io/github/issues/tomanagle/codenames?style=flat-square)](https://github.com/tomanagle/codenames/issues)[![GitHub stars](https://img.shields.io/github/stars/tomanagle/codenames?style=flat-square)](https://github.com/tomanagle/codenames/stargazers)
+
+Built with 💜 by [Tom Nagle](https://github.com/tomanagle)
+
+🌟 👀 ⚡ 💥
+</div>
 
 ## Introduction 😊
 A fullstack JavaScript application that emulates the popular board game Codenames.The application takes advantage of WebSockets to keep all participants in a game in sync, instead of intermittent polling.
