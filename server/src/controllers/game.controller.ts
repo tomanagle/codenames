@@ -11,7 +11,7 @@ function shuffle(array: any) {
     return array.sort(() => Math.random() - 0.5).sort(() => Math.random() - 0.5)
 }
 
-async function getGameWords({ language }) {
+export async function getGameWords({ language }) {
     const words: Word[] = await word
         .aggregate([
             {

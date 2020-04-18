@@ -3,30 +3,27 @@ const adult = require('./adult.json')
 
 import Word, { Language } from '../models/word.model'
 
-async function run() {
-    console.log('Inserting words')
-    await english.forEach(async (word: string) => {
-        console.log('inserting word', word)
-        await Word.create({ label: word, language: Language.English })
-            .then(data => {
-                console.log({ data })
-            })
-            .catch(error => {
-                console.error('error', error)
-                throw error
-            })
+async function run({ drop = false }: { drop?: boolean }) {
+    if (drop) {
+        await Word.remove({}).exec()
+    }
+
+    const englishP = english.map(word => {
+        return Word.create({ label: word, language: Language.English }).catch(
+            () => {
+                return null
+            }
+        )
     })
 
-    await adult.forEach(async (word: string) => {
-        console.log('inserting word', word)
-        await Word.create({ label: word, language: Language.Adult })
-            .then(data => {
-                console.log({ data })
-            })
-            .catch(error => {
-                console.error('error', error)
-                throw error
-            })
+    const adultP = adult.map(word => {
+        return Word.create({ label: word, language: Language.Adult }).catch(
+            () => {
+                return null
+            }
+        )
     })
+
+    return Promise.all([...englishP, adultP])
 }
 export default run
