@@ -6,6 +6,8 @@ import App from '../components/App';
 import { useStartGameMutation, Language } from '../generated';
 import Head from 'next/head';
 
+import useTranslation from '../locales/useTranslation';
+
 const Background = styled.div`
   background-image: linear-gradient(
     to right top,
@@ -49,6 +51,7 @@ const Wrapper = styled.div`
 const Home = () => {
   const router = useRouter();
   const [language, setLanguage] = React.useState(Language.ENGLISH);
+  const { t } = useTranslation();
 
   const [startGame, { loading }] = useStartGameMutation({
     variables: {
@@ -118,7 +121,7 @@ const Home = () => {
           </Radio.Group>
           <br />
           <Button type="primary" loading={loading} onClick={() => startGame()}>
-            START GAME
+            {t('home.startButton')}
           </Button>
           <br />
           <p>
