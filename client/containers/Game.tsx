@@ -62,6 +62,7 @@ const Tile = styled.div`
 
   @media screen and (max-width: 599px) {
     button {
+      font-size: 0.75rem;
       padding: 0.5rem;
     }
   }
