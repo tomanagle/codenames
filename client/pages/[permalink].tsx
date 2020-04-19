@@ -3,6 +3,7 @@ import { Result, Input, Button, message } from 'antd';
 import Error from 'next/error';
 import { get } from 'lodash';
 import styled from 'styled-components';
+import * as Sentry from '@sentry/node';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import App from '../components/App';
 import {
@@ -31,6 +32,11 @@ const CopyWrapper = styled.div`
 
 const GamePage = ({ query: { permalink } }) => {
   const [user, setUser] = React.useState(null);
+
+  Sentry.configureScope(scope => {
+    // Set if this is an SSR error or not
+    scope.setTag('game', permalink);
+  });
 
   React.useEffect(() => {
     const addThisWrapper = document.getElementById('at4-share');

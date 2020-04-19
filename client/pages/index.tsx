@@ -81,6 +81,7 @@ const Home = () => {
         <div id="add-this-wrapper">
           <div className="addthis_floating_share_toolbox" />
         </div>
+
         <div className="inner">
           <h1>Playing codenames online with friends</h1>
           <p>To get started playing codenames online with your friends:</p>

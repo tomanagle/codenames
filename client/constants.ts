@@ -9,7 +9,6 @@ export const {
   SERVER_BASE_URL,
   WEBSOCKET_BASE_URL,
   CLIENT_BASE_URL,
-  GA_ID
+  GA_ID,
+  SENTRY_DSN
 } = publicRuntimeConfig;
-
-export const SENTRY_DSN = process.env.SENTRY_DSN || '';
