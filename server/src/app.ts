@@ -1,4 +1,5 @@
 import http from 'http'
+import { get } from 'lodash'
 import cookieParser from 'cookie-parser'
 import bodyParser from 'body-parser'
 import express, { Request, Response } from 'express'
@@ -35,8 +36,11 @@ const ApolloServer = new _ApolloServer({
         return error
     },
     context: ({ req, ...rest }) => {
-        const ip =
-            req.headers['x-forwarded-for'] || req.connection.remoteAddress
+        const ip = get(
+            req,
+            "headers['x-forwarded-for']",
+            get(req, 'connection.remoteAddress', 'UNKNOWN')
+        )
 
         return { ...req, ...rest, ip }
     },
@@ -70,11 +74,11 @@ const server = http.createServer(app)
 async function onListening() {
     await connect()
 
-    // setTimeout(async () => {
-    //     await insert({ drop: true }).then(data => {
-    //         console.log('Finished inserting words :)')
-    //     })
-    // }, 2000)
+    setTimeout(async () => {
+        await insert({ drop: true }).then(() => {
+            console.log('Finished inserting words :)')
+        })
+    }, 2000)
 
     const addr = server.address()
 
