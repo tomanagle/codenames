@@ -9,8 +9,6 @@ import withApolloClient from '../lib/with-apollo-client';
 import { GA_ID } from '../constants';
 import initSentry from '../lib/sentry';
 
-initSentry();
-
 Router.events.on('routeChangeStart', () => {
   NProgress.start();
 });
@@ -19,6 +17,8 @@ Router.events.on('routeChangeError', () => NProgress.done());
 
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {
+    initSentry();
+
     let pageProps = {
       query: null,
       userContext: null
@@ -33,6 +33,8 @@ class MyApp extends App {
     return { pageProps };
   }
 
+  componentWillMount() {}
+
   componentDidCatch(error, errorInfo) {
     Sentry.withScope(scope => {
       Object.keys(errorInfo).forEach(key => {
@@ -45,6 +47,7 @@ class MyApp extends App {
     super.componentDidCatch(error, errorInfo);
   }
   componentDidMount() {
+    initSentry();
     console.log(
       '%cGet the full codebase here: https://github.com/tomanagle/codenames',
       'color: #e91e63; font-size: 16px'
