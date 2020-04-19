@@ -1,5 +1,5 @@
 {
-    "name": "typescript-starter",
+    "name": "play-codenames-online",
     "version": "1.0.0",
     "main": "src/app.ts",
     "author": "Tom Nagle",
@@ -14,6 +14,7 @@
         "deploy": "npm install && npm run build && pm2 start process.json"
     },
     "dependencies": {
+        "@sentry/node": "^5.15.4",
         "@types/cookie-parser": "^1.4.2",
         "@types/jest": "^24.0.11",
         "@types/lodash": "^4.14.149",

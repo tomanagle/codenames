@@ -7,17 +7,27 @@ import { NextFunction } from 'connect'
 import { GraphQLError } from 'graphql'
 import { ApolloServer as _ApolloServer } from 'apollo-server-express'
 import { PubSub } from 'apollo-server-express'
-import { CORS_ORIGIN, IS_DEBUG } from './constants'
+import * as Sentry from '@sentry/node'
+import { CORS_ORIGIN, IS_DEBUG, SENTRY_DSN, ENV } from './constants'
 import connect from './database/connect'
 import methodOverride from 'method-override'
 import resolvers, { rateLimitDirective } from './resolvers'
 import typeDefs from './schema'
 import cors from 'cors'
 import insert from './migration/insert'
-import { version } from '../package.json'
+import { version, name } from '../package.json'
+import apolloServerSentryPlugin from './utils/apolloServerSentryPlugin'
 
 const port = 4000
 export const pubsub = new PubSub()
+
+const app = express()
+
+Sentry.init({
+    environment: ENV,
+    release: `${name}-${version}`,
+    dsn: SENTRY_DSN,
+})
 
 const ApolloServer = new _ApolloServer({
     schemaDirectives: {
@@ -27,6 +37,7 @@ const ApolloServer = new _ApolloServer({
     resolvers,
     playground: IS_DEBUG,
     tracing: IS_DEBUG,
+    plugins: [apolloServerSentryPlugin],
     /*
      * GraphQL errors can be formatted into any shape you want. Available fields are on GraphQLError
      */
@@ -46,7 +57,8 @@ const ApolloServer = new _ApolloServer({
     },
 })
 
-const app = express()
+// The request handler must be the first middleware on the app
+app.use(Sentry.Handlers.requestHandler())
 
 const debug = require('debug')('codenames:server')
 
@@ -86,35 +98,6 @@ async function onListening() {
     debug('Listening on ' + bind)
 }
 
-/* ===============================================
-Event listener for HTTP server "error" event.
-=============================================== */
-
-interface IError extends Error {
-    syscall: string
-    code: string
-}
-
-function onError(error: IError) {
-    if (error.syscall !== 'listen') {
-        throw error
-    }
-
-    const bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port
-
-    // handle specific listen errors with friendly messages
-    switch (error.code) {
-        case 'EACCES':
-            process.exit(1)
-            break
-        case 'EADDRINUSE':
-            process.exit(1)
-            break
-        default:
-            throw error
-    }
-}
-
 /*
  * Respond to OPTIONS requests with a 200
  */
@@ -129,6 +112,8 @@ ApolloServer.applyMiddleware({ app, cors: false })
 
 ApolloServer.installSubscriptionHandlers(server)
 
+// The error handler must be before any other error middleware and after all controllers
+app.use(Sentry.Handlers.errorHandler())
+
 server.listen(port)
-server.on('error', onError)
 server.on('listening', onListening)
