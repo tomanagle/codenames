@@ -15,13 +15,11 @@ import {
     ResetGameInput,
     StartGameInput,
 } from './controllers/game.controller'
-import {} from './constants'
 import { pubsub } from './app'
 import User from './models/user.model'
 import { IGame } from './models/game.model'
 import analytics from './models/analytics.model'
 import { GAME_UPDATED, GAME_RESET } from './constants'
-import { ApolloServerExpressConfig } from 'apollo-server-express/dist/ApolloServer'
 
 export const rateLimitDirective = createRateLimitDirective({
     // @ts-ignore
