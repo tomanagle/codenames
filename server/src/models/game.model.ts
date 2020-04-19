@@ -3,6 +3,8 @@ import shortid from 'shortid'
 import { User, Team } from './user.model'
 import { Word, Language } from './word.model'
 
+import analytics, { IAction } from './analytics.model'
+
 export interface IGame extends Document {
     title: string
     permalink: string
@@ -12,6 +14,7 @@ export interface IGame extends Document {
     currentTurn: Team
     words: Word[]
     users: User[]
+    ip: string
 }
 
 const Schema = new mongoose.Schema(
@@ -39,8 +42,14 @@ const Schema = new mongoose.Schema(
         users: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
         finished: { type: Boolean, default: false },
         permalink: { type: String, default: shortid.generate },
+        ip: String,
     },
     { timestamps: true }
 )
+
+Schema.post('save', ({ ip, _id }: IGame) => {
+    // @ts-ignore
+    analytics.newGame({ ip, game: _id, action: IAction.NEW_GAME })
+})
 
 export default mongoose.model<IGame>('Game', Schema)

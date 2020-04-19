@@ -2,6 +2,14 @@
 import { gql } from 'apollo-server'
 
 const typeDefs = gql`
+    directive @rateLimit(
+        max: Int
+        window: String
+        message: String
+        identityArgs: [String]
+        arrayLengthField: String
+    ) on FIELD_DEFINITION
+
     input GameUpdatedInput {
         permalink: String
     }
@@ -90,6 +98,11 @@ const typeDefs = gql`
 
     type Mutation {
         StartGame(input: StartGameInput): Game!
+            @rateLimit(
+                window: "30s"
+                max: 2
+                message: "You are doing that too often."
+            )
         JoinGame(input: JoinGameInput!): User!
         PickWord(input: PickWordInput!): Game
         ResetGame(input: ResetGameInput!): Game!

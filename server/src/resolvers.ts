@@ -1,5 +1,6 @@
 import { withFilter } from 'graphql-subscriptions'
 import { get } from 'lodash'
+import { createRateLimitDirective } from 'graphql-rate-limit'
 import {
     startGame,
     joinGame,
@@ -18,7 +19,16 @@ import {} from './constants'
 import { pubsub } from './app'
 import User from './models/user.model'
 import { IGame } from './models/game.model'
+import analytics from './models/analytics.model'
 import { GAME_UPDATED, GAME_RESET } from './constants'
+import { ApolloServerExpressConfig } from 'apollo-server-express/dist/ApolloServer'
+
+export const rateLimitDirective = createRateLimitDirective({
+    // @ts-ignore
+    identifyContext: data => {
+        return data.headers['x-forwarded-for'] || data.connection.remoteAddress
+    },
+})
 
 const resolvers = {
     Subscription: {
@@ -68,8 +78,8 @@ const resolvers = {
         },
     },
     Mutation: {
-        StartGame: (_: null, { input }: { input: StartGameInput }) => {
-            return startGame(input)
+        StartGame: (_: null, { input }: { input: StartGameInput }, context) => {
+            return startGame({ ...input, ip: context.ip })
         },
         JoinGame: (_: null, { input }: { input: JoinGameInput }) => {
             return joinGame(input)
@@ -80,7 +90,12 @@ const resolvers = {
         EndTurn: (_: null, { input }: { input: EndTurnInput }) => {
             return endTurn(input)
         },
-        ResetGame: (_: null, { input }: { input: ResetGameInput }) => {
+        ResetGame: (_: null, { input }: { input: ResetGameInput }, context) => {
+            // @ts-ignore
+            analytics.resetGame({
+                ip: context.ip,
+                permalink: input.permalink,
+            })
             return resetGame(input)
         },
     },

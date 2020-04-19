@@ -9,7 +9,7 @@ import { PubSub } from 'apollo-server-express'
 import { CORS_ORIGIN, IS_DEBUG } from './constants'
 import connect from './database/connect'
 import methodOverride from 'method-override'
-import resolvers from './resolvers'
+import resolvers, { rateLimitDirective } from './resolvers'
 import typeDefs from './schema'
 import cors from 'cors'
 import insert from './migration/insert'
@@ -19,6 +19,9 @@ const port = 4000
 export const pubsub = new PubSub()
 
 const ApolloServer = new _ApolloServer({
+    schemaDirectives: {
+        rateLimit: rateLimitDirective,
+    },
     typeDefs,
     resolvers,
     playground: IS_DEBUG,
@@ -30,6 +33,12 @@ const ApolloServer = new _ApolloServer({
         // eslint-disable-next-line
         console.log(error)
         return error
+    },
+    context: ({ req, ...rest }) => {
+        const ip =
+            req.headers['x-forwarded-for'] || req.connection.remoteAddress
+
+        return { ...req, ...rest, ip }
     },
 })
 
@@ -61,11 +70,11 @@ const server = http.createServer(app)
 async function onListening() {
     await connect()
 
-    setTimeout(async () => {
-        await insert({ drop: true }).then(data => {
-            console.log('Finished inserting words :)')
-        })
-    }, 2000)
+    // setTimeout(async () => {
+    //     await insert({ drop: true }).then(data => {
+    //         console.log('Finished inserting words :)')
+    //     })
+    // }, 2000)
 
     const addr = server.address()
 

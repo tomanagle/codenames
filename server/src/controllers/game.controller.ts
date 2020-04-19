@@ -6,6 +6,7 @@ import mongoose from 'mongoose'
 import randomName from 'node-random-name'
 import { pubsub } from '../app'
 import { GAME_UPDATED, GAME_RESET } from '../constants'
+import { Context } from 'vm'
 
 function shuffle(array: any) {
     return array.sort(() => Math.random() - 0.5).sort(() => Math.random() - 0.5)
@@ -73,9 +74,10 @@ export async function getGameWords({ language }) {
 
 export interface StartGameInput {
     language: Language
+    ip: string
 }
 
-export async function startGame({ language }) {
+export async function startGame({ language, ip }: StartGameInput) {
     const {
         restWords,
         deathWord,
@@ -86,6 +88,7 @@ export async function startGame({ language }) {
 
     return Game.create({
         language,
+        ip,
         currentTurn: starts === Team.red ? Team.red : Team.green,
         words: shuffle([
             ...redWords,
@@ -303,7 +306,6 @@ export async function resetGame({ permalink }: ResetGameInput) {
         greenWords,
         redWords,
         starts,
-        // TODO test language choice
     } = await getGameWords({ language: game.language })
 
     await User.deleteMany({ game: game._id }).exec()
@@ -330,4 +332,5 @@ export async function resetGame({ permalink }: ResetGameInput) {
     pubsub.publish(GAME_UPDATED, { GameUpdated: updatedGame })
 
     pubsub.publish(GAME_RESET, { GameUpdated: updatedGame })
+    return updatedGame
 }
