@@ -25,9 +25,11 @@ Contributions are welcome! Before working on a PR, raise an issue so we can talk
 1. Clone the repository
 2. yarn install the required modules in both the client and server
 3. run the client with ```yarn dev```
-4. run the server with ```yarn dev```, or ```docker-compose up```
+4. run the server with ```yarn dev```, or ```docker-compose up``` or ```./build.sh```
 5. touch ./server/.env
 6. touch ./client/.env
+
+Note: The ./build.sh script will need to be made executable with ```chod +x ./build.sh``` before you can execute it.
 
 **./server.env**
 ```
