@@ -1,6 +1,5 @@
 <div align="center">
 
-
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com) 
 [![GitHub issues](https://img.shields.io/github/issues/tomanagle/codenames?style=flat-square)](https://github.com/tomanagle/codenames/issues)[![GitHub stars](https://img.shields.io/github/stars/tomanagle/codenames?style=flat-square)](https://github.com/tomanagle/codenames/stargazers)
 
@@ -9,13 +8,20 @@ Built with 💜 by [Tom Nagle](https://github.com/tomanagle)
 🌟 👀 ⚡ 💥
 </div>
 
+## Contributing ✅
+Contributions are welcome! Before working on a PR, raise an issue so we can talk about your feature and make sure it will be merged into master.
+
+Help wanted with:
+* Increasing client test coverage
+* Increasing server test coverage
+* Translating from English to other languages so everyone can play :)
+
+
 ## Introduction 😊
 A fullstack JavaScript application that emulates the popular board game Codenames.The application takes advantage of WebSockets to keep all participants in a game in sync, instead of intermittent polling.
 
 The server provides a [GraphQL API](https://www.apollographql.com/docs/apollo-server/), thanks to Apollo Server. The client consumes the GraphQL API thanks to [Apollo Client](https://www.apollographql.com/docs/react/).
 
-## Contributing ✅
-Contributions are welcome! Before working on a PR, raise an issue so we can talk about your feature and make sure it will be merged into master.
 
 ---
 
