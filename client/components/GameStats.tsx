@@ -10,8 +10,11 @@ const WordsLeft = styled.div`
   line-height: 1;
   background-color: ${props =>
     props.team === Team.RED ? '#ff1744' : '#00c853'};
-  margin-right: 0.5rem;
+  margin-top: 0.5rem;
   margin-bottom: 0.5rem;
+  :nth-of-type(1) {
+    margin-right: 0.5rem;
+  }
 `;
 
 const GameStats = ({ game }) => {

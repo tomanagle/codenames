@@ -1,26 +1,47 @@
 import React, { useState } from 'react';
-import { Row, Col, Button, Spin, Alert } from 'antd';
+import { Row, Col, Button, Spin, Alert as _Alert } from 'antd';
 import styled from 'styled-components';
 import {
   Game,
   usePickWordMutation,
   User,
   Role,
-  Team,
-  useEndTurnMutation
+  useEndTurnMutation,
+  Team
 } from '../generated';
 import GameStats from '../components/GameStats';
+
+const Alert = styled(_Alert)`
+  color: #333;
+
+  span.ant-alert-message {
+    color: #333;
+  }
+
+  background-color: ${props =>
+    props.currentTurn === Team.RED
+      ? 'rgba(255,23,68, .1)'
+      : 'rgba(0,200,83, .1)'};
+
+  border-color: ${props =>
+    props.currentTurn === Team.RED ? 'rgb(255,23,68)' : 'rgb(0,200,83)'};
+`;
 
 const GameWrapper = styled.div`
   width: 100%;
   max-width: 60rem;
   margin: 0 auto;
+  min-height: calc(100vh - 20px);
+
+  display: flex;
+  flex-direction: column;
 `;
 
 const GameBoardWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
+  flex: 1;
 `;
 
 const Tile = styled.div`
@@ -81,8 +102,8 @@ const Tile = styled.div`
   }
 
   button.word-team__none.picked__true {
-    background-color: #24b5b5;
-    color: #fff;
+    background-color: #fff9c4;
+    color: #000;
   }
 `;
 
@@ -123,6 +144,7 @@ const GameContainer = ({
                   game.currentTurn
                 ).toUpperCase()} words.`
           }
+          currentTurn={game.currentTurn}
           type="success"
         />
       )}
@@ -136,9 +158,10 @@ const GameContainer = ({
           ).toUpperCase()} team's turn, wait
       for them to finish.`}
           type="info"
+          currentTurn={game.currentTurn}
         />
       )}
-      <br />
+
       <Row align="middle">
         <Col flex="1">
           <GameStats game={game} />
@@ -151,6 +174,7 @@ const GameContainer = ({
           </Col>
         )}
       </Row>
+
       <GameBoardWrapper>
         {game.words.map(word => {
           return (

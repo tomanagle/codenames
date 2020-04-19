@@ -12,7 +12,7 @@ import methodOverride from 'method-override'
 import resolvers from './resolvers'
 import typeDefs from './schema'
 import cors from 'cors'
-//import insert from './words/insert'
+import insert from './words/insert'
 import { version } from '../package.json'
 
 const port = 4000
@@ -35,7 +35,7 @@ const ApolloServer = new _ApolloServer({
 
 const app = express()
 
-const debug = require('debug')('apily:server')
+const debug = require('debug')('codenames:server')
 
 app.use(
     cors({
@@ -61,11 +61,11 @@ const server = http.createServer(app)
 async function onListening() {
     await connect()
 
-    // setTimeout(async () => {
-    //     await insert({ drop: true }).then(data => {
-    //         console.log('Finished inserting words :)')
-    //     })
-    // }, 2000)
+    setTimeout(async () => {
+        await insert({ drop: true }).then(data => {
+            console.log('Finished inserting words :)')
+        })
+    }, 2000)
 
     const addr = server.address()
 
