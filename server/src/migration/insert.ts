@@ -1,12 +1,9 @@
-const english = require('./english.json')
-const adult = require('./adult.json')
-const german = require('./german.json')
-
-const spanish = require('./spanish.json')
-
-const french = require('./french.json')
-
-const italian = require('./italian.json')
+import english from './english'
+import adult from './adult'
+import german from './german'
+import spanish from './spanish'
+import french from './french'
+import italian from './italian'
 
 import Word, { Language } from '../models/word.model'
 

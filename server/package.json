@@ -9,7 +9,7 @@
         "lint": "eslint --ext .js,.ts ./server",
         "lint:fix": "eslint --ext .js,.ts ./server --fix",
         "test": "jest",
-        "build": "tsc",
+        "build": "rimraf ./dist && tsc",
         "dev": "nodemon",
         "deploy": "npm install && npm run build && pm2 start process.json"
     },

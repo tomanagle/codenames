@@ -12,7 +12,7 @@ import methodOverride from 'method-override'
 import resolvers from './resolvers'
 import typeDefs from './schema'
 import cors from 'cors'
-import insert from './words/insert'
+import insert from './migration/insert'
 import { version } from '../package.json'
 
 const port = 4000

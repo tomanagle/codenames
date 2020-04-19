@@ -1,6 +1,5 @@
 import mongoose from 'mongoose'
-import insert from '../../words/insert'
-import connect from '../../database/connect'
+import insert from '../../migration/insert'
 
 export default async () => {
     await mongoose.connect(

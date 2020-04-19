@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Result, Input, Button, message, Form } from 'antd';
+import * as React from 'react';
+import { Result, Input, Button, message } from 'antd';
 import Error from 'next/error';
 import { get } from 'lodash';
 import styled from 'styled-components';
@@ -30,16 +30,16 @@ const CopyWrapper = styled.div`
 `;
 
 const GamePage = ({ query: { permalink } }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = React.useState(null);
 
-  useEffect(() => {
+  React.useEffect(() => {
     const addThisWrapper = document.getElementById('at4-share');
     if (addThisWrapper) {
       addThisWrapper.style.display = 'none';
     }
   }, []);
 
-  useEffect(() => {
+  React.useEffect(() => {
     const user = localStorage.getItem(`${permalink}codenamesuser`);
     if (user) {
       setUser(JSON.parse(user));
@@ -80,7 +80,7 @@ const GamePage = ({ query: { permalink } }) => {
     item => item.role && item.team
   );
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (users && user) {
       const thisUser = users.filter(item => item._id === user._id)[0];
 
