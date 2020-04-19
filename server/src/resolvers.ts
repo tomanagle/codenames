@@ -24,7 +24,13 @@ import { GAME_UPDATED, GAME_RESET } from './constants'
 export const rateLimitDirective = createRateLimitDirective({
     // @ts-ignore
     identifyContext: data => {
-        return data.headers['x-forwarded-for'] || data.connection.remoteAddress
+        const ip = get(
+            data,
+            "headers['x-forwarded-for']",
+            get(data, 'connection.remoteAddress', 'UNKNOWN')
+        )
+        console.log({ ip })
+        return ip
     },
 })
 
