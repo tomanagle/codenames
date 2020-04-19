@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Radio, Button, Input, Modal, Form, Alert } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { useJoinGameMutation, Role, Team, Game } from '../generated';
+import Error from '../components/Error';
 
 const JoinGame = ({ permalink, setUser, visible, users }) => {
   let availableRoles = [];
@@ -118,12 +119,8 @@ const JoinGame = ({ permalink, setUser, visible, users }) => {
           name
         }}
       >
-        {error && (
-          <Alert
-            message={error.message.replace('GraphQL error: ', '')}
-            type="error"
-          />
-        )}
+        {error && <Error error={error} />}
+
         <Form.Item required label="Username:" name="name">
           <Input
             required

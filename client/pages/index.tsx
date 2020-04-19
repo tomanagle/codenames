@@ -5,8 +5,8 @@ import styled from 'styled-components';
 import App from '../components/App';
 import { useStartGameMutation, Language } from '../generated';
 import Head from 'next/head';
-
 import useTranslation from '../locales/useTranslation';
+import Error from '../components/Error';
 
 const Background = styled.div`
   background-image: linear-gradient(
@@ -53,7 +53,7 @@ const Home = () => {
   const [language, setLanguage] = React.useState(Language.ENGLISH);
   const { t } = useTranslation();
 
-  const [startGame, { loading }] = useStartGameMutation({
+  const [startGame, { loading, error }] = useStartGameMutation({
     variables: {
       input: {
         language
@@ -91,6 +91,14 @@ const Home = () => {
             <li>Share the link with your friends</li>
             <li>Start playing Codenames</li>
           </ol>
+
+          {error && (
+            <>
+              <Error error={error} />
+              <br />
+            </>
+          )}
+
           <Radio.Group
             onChange={e => setLanguage(e.target.value)}
             value={language}

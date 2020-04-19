@@ -101,7 +101,7 @@ const typeDefs = gql`
             @rateLimit(
                 window: "30s"
                 max: 2
-                message: "You are doing that too often."
+                message: "You need to settle down."
             )
         JoinGame(input: JoinGameInput!): User!
         PickWord(input: PickWordInput!): Game
