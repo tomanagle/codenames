@@ -5,7 +5,7 @@ services:
       - NODE_ENV=production
       # If you want to use a cloud service like Mongo Atlas, change this to your connection string,
       # or remove this like and store the connection string in a .env file so you don't have to commit it
-      - MONO_DB_CONNECTION_STRING=mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@cndb:27017/${MONGO_INITDB_DATABASE}
+      # - MONO_DB_CONNECTION_STRING=mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@cndb:27017/${MONGO_INITDB_DATABASE}
     env_file:
       - .env
     build:
@@ -13,19 +13,19 @@ services:
     image: codenames-server
     ports:
      - "4000:4000"
-    depends_on:
-      - cndb
+    # depends_on:
+    #   - cndb
 
   # Runs MongoDB locally - If you want to use a cloud service you can remove from here down
   # If the cloud service isn't locally networked it's really slow, that's why I added local MongoDB
-  cndb:
-    image: mongo:4.2
-    env_file: .env
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
-      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
-    ports:
-      - 27017:27017
-    logging:
-      driver: none
+  # cndb:
+  #   image: mongo:4.2
+  #   env_file: .env
+  #   environment:
+  #     MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+  #     MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+  #     MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
+  #   ports:
+  #     - 27017:27017
+  #   logging:
+  #     driver: none
