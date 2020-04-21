@@ -11,6 +11,7 @@ async function connect() {
             .then(() => console.log(`🗄️ Successfully connected to database 🗄️`))
     } catch (error) {
         console.log(`🔥 An error ocurred when trying to connect to database 🔥`)
+        console.error(error)
         process.exit(1)
     }
 }
