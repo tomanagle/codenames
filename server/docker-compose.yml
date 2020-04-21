@@ -5,7 +5,7 @@ services:
       - NODE_ENV=production
       # If you want to use a cloud service like Mongo Atlas, change this to your connection string,
       # or remove this like and store the connection string in a .env file so you don't have to commit it
-      - MONO_DB_CONNECTION_STRING=mongodb://${MONGO_INITDB_ROOT_USERNAME}@${MONGO_INITDB_ROOT_PASSWORD}cndb:27017/${MONGO_INITDB_DATABASE}
+      - MONO_DB_CONNECTION_STRING=mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@cndb:27017/${MONGO_INITDB_DATABASE}
     env_file:
       - .env
     build:
