@@ -20,7 +20,5 @@ services:
   # If the cloud service isn't locally networked it's really slow, that's why I added local MongoDB
   cndb:
     image: mongo:4.2
-    ports:
-      - 27017:27017
     logging:
       driver: none
