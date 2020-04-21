@@ -6,7 +6,7 @@ import mongoose from 'mongoose'
 import randomName from 'node-random-name'
 import { pubsub } from '../app'
 import { GAME_UPDATED, GAME_RESET } from '../constants'
-import { Context } from 'vm'
+import analytics, { IAction } from '../models/analytics.model'
 
 function shuffle(array: any) {
     return array.sort(() => Math.random() - 0.5).sort(() => Math.random() - 0.5)
@@ -106,9 +106,16 @@ export interface JoinGameInput {
     team: Team
     role: Role
     name?: string
+    ip: string
 }
 
-export async function joinGame({ permalink, team, role, name }: JoinGameInput) {
+export async function joinGame({
+    permalink,
+    team,
+    role,
+    name,
+    ip,
+}: JoinGameInput) {
     const game = await Game.findOne({ permalink })
         .populate('users')
         .exec()
@@ -141,6 +148,7 @@ export async function joinGame({ permalink, team, role, name }: JoinGameInput) {
         team,
         role,
         game: game._id,
+        ip,
     }).catch(() => {
         // Force the unique index
         throw new Error(
@@ -148,6 +156,13 @@ export async function joinGame({ permalink, team, role, name }: JoinGameInput) {
                 team
             ).toUpperCase()} team has been taken. Try choosing a different role or team.`
         )
+    })
+
+    // @ts-ignore
+    analytics.joinGame({
+        ip,
+        game: game._id,
+        user: user._id,
     })
 
     await game.update({ $push: { users: [user._id] } }).exec()

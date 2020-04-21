@@ -16,6 +16,7 @@ export interface User extends Document {
     team: Team
     role: Role
     name: string
+    ip: string
 }
 
 const Schema = new mongoose.Schema(
@@ -24,6 +25,7 @@ const Schema = new mongoose.Schema(
         role: { type: String, enum: ['spymaster', 'player'] },
         game: { type: mongoose.Schema.Types.ObjectId, ref: 'Game' },
         name: String,
+        ip: String,
     },
     // Adds createdAt and updatedAt to the model
     { timestamps: true }

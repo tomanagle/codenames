@@ -5,6 +5,7 @@ import Game, { IGame } from './game.model'
 export enum IAction {
     NEW_GAME = 'NEW_GAME',
     RESET_GAME = 'RESET_GAME',
+    JOIN_GAME = 'JOIN_GAME',
 }
 
 export interface IAnalytics extends Document {
@@ -27,6 +28,15 @@ const Schema = new mongoose.Schema(
 Schema.statics.newGame = function({ ip }): void {
     this.create({
         action: IAction.NEW_GAME,
+        ip,
+    })
+}
+
+Schema.statics.joinGame = function({ ip, user, game }): void {
+    this.create({
+        action: IAction.JOIN_GAME,
+        user,
+        game,
         ip,
     })
 }
