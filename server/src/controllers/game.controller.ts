@@ -6,7 +6,7 @@ import mongoose from 'mongoose'
 import randomName from 'node-random-name'
 import { pubsub } from '../app'
 import { GAME_UPDATED, GAME_RESET } from '../constants'
-import analytics, { IAction } from '../models/analytics.model'
+import analytics, { IAction, IWinMechanism } from '../models/analytics.model'
 
 function shuffle(array: any) {
     return array.sort(() => Math.random() - 0.5).sort(() => Math.random() - 0.5)
@@ -180,9 +180,10 @@ export interface PickWordInput {
     word: string
     user: string
     permalink: IGame['permalink']
+    ip: string
 }
 
-export async function pickWord({ word, user, permalink }: PickWordInput) {
+export async function pickWord({ word, user, permalink, ip }: PickWordInput) {
     const game: IGame = await Game.findOne({ permalink }).catch(error => {
         throw error
     })
@@ -190,6 +191,7 @@ export async function pickWord({ word, user, permalink }: PickWordInput) {
     const player = await User.findById(user)
         .lean()
         .exec()
+
     if (game.currentTurn !== player.team) {
         return game
     }
@@ -202,17 +204,33 @@ export async function pickWord({ word, user, permalink }: PickWordInput) {
         throw new ApolloError('That word does not exist in this game.')
     }
 
+    // Set the word as picked
+    await Game.update(
+        { _id: game._id, 'words._id': new mongoose.Types.ObjectId(word) },
+        { $set: { 'words.$.picked': true } }
+    ).exec()
+
     // The user picked the death word
     if (selectedWord.death) {
+        const winner = player.team === Team.green ? Team.red : Team.green
         await game.update({
             finished: true,
-            winner: player.team === Team.green ? Team.red : Team.green,
+            winner,
+        })
+
+        // @ts-ignore
+        analytics.finishGame({
+            ip,
+            game: game._id,
+            user: player._id,
+            winner,
+            winMechanism: IWinMechanism.DEATH_CARD,
         })
 
         const data = {
             ...game.toJSON(),
             finished: true,
-            winner: player.team === Team.green ? Team.red : Team.green,
+            winner,
         }
 
         pubsub.publish(GAME_UPDATED, {
@@ -248,6 +266,15 @@ export async function pickWord({ word, user, permalink }: PickWordInput) {
         await game.update({
             winner: player.team,
             finished: true,
+        })
+
+        // @ts-ignore
+        analytics.finishGame({
+            ip,
+            game: game._id,
+            user: player._id,
+            winner: player.team,
+            winMechanism: IWinMechanism.PICKED_ALL_WORDS,
         })
     }
 

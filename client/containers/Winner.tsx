@@ -15,7 +15,7 @@ const Winner = ({ winner, players, permalink }) => {
 
   return (
     <Modal
-      visible={true || !!winner}
+      visible={!!winner}
       closable={false}
       maskClosable={false}
       footer={[

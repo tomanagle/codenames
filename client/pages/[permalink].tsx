@@ -115,12 +115,14 @@ const GamePage = ({ query: { permalink } }) => {
       description="Play codenames online with friends"
       showFooter={false}
     >
-      {game.winner ? (
-        <Winner
-          winner={game.winner}
-          players={users.filter(item => item.team === game.winner)}
-          permalink={permalink}
-        />
+      {game.winner && game.winner !== Team.NONE ? (
+        <>
+          <Winner
+            winner={game.winner}
+            players={users.filter(item => item.team === game.winner)}
+            permalink={permalink}
+          />
+        </>
       ) : null}
 
       {(!user || !user.role || !user.team) && readyUsers.length !== 4 && (

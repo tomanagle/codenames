@@ -92,8 +92,8 @@ const Tile = styled.div`
   }
 
   button.picked__true.is_death__true {
-    background-color: #000;
-    color: #fff;
+    background-color: #000 !important;
+    color: #fff !important;
   }
 
   button.role__spymaster.picked__false.is_death__true {

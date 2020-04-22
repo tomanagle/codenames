@@ -86,8 +86,8 @@ const resolvers = {
         JoinGame: (_: null, { input }: { input: JoinGameInput }, context) => {
             return joinGame({ ...input, ip: context.ip })
         },
-        PickWord: (_: null, { input }: { input: PickWordInput }) => {
-            return pickWord(input)
+        PickWord: (_: null, { input }: { input: PickWordInput }, context) => {
+            return pickWord({ ...input, ip: context.ip })
         },
         EndTurn: (_: null, { input }: { input: EndTurnInput }) => {
             return endTurn(input)
