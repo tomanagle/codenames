@@ -162,7 +162,7 @@ const GamePage = ({ query: { permalink } }) => {
               id="game-url"
             />
             <CopyToClipboard
-              text={`https://playcodenames.online/${permalink}`}
+              text={`https://playcodenames.online/${permalink}/?utm_source=start_game&utm_medium=share&utm_campaign=copy_link`}
               onCopy={() =>
                 message.success(
                   'Copied to clipboard. Now share it with your friends!',
