@@ -22,11 +22,7 @@ const Winner = ({ winner, players, permalink }) => {
       visible={!!winner && !closed}
       onCancel={() => setClosed(true)}
       footer={[
-        <Button
-          key="restart-game-cta"
-          loading={loading}
-          onClick={() => router.push('/')}
-        >
+        <Button key="restart-game-cta" onClick={() => router.push('/')}>
           HOME
         </Button>,
         <Button
