@@ -144,7 +144,8 @@ const GameContainer = ({
           {user && (
             <p>
               Welcome {user.name}! To get started share the link below with your
-              friends and family. We currently have {readyUsersLength} user
+              friends and family. When all players join the game, you will be
+              able to start playing. We currently have {readyUsersLength} user
               {readyUsersLength > 1 && 's'} in the room and we need 4 start
               start.
             </p>
