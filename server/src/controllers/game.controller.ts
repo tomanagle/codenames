@@ -357,7 +357,7 @@ export async function resetGame({ permalink }: ResetGameInput) {
         {
             $set: {
                 finished: false,
-                winner: null,
+                winner: Team.none,
                 users: [],
                 currentTurn: starts === Team.red ? Team.red : Team.green,
                 words: shuffle([
