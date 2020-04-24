@@ -1,10 +1,10 @@
+import * as React from 'react';
 import { Result, Button, Modal } from 'antd';
+import { useRouter } from 'next/router';
 import { useResetGameMutation } from '../generated';
 const Winner = ({ winner, players, permalink }) => {
-  if (!winner || !players.length) {
-    return <div />;
-  }
-
+  const [closed, setClosed] = React.useState(false);
+  const router = useRouter();
   const [restartGame, { loading }] = useResetGameMutation({
     variables: {
       input: {
@@ -13,12 +13,22 @@ const Winner = ({ winner, players, permalink }) => {
     }
   });
 
+  if (!winner || !players.length) {
+    return <div />;
+  }
+
   return (
     <Modal
-      visible={!!winner}
-      closable={false}
-      maskClosable={false}
+      visible={!!winner && !closed}
+      onCancel={() => setClosed(true)}
       footer={[
+        <Button
+          key="restart-game-cta"
+          loading={loading}
+          onClick={() => router.push('/')}
+        >
+          HOME
+        </Button>,
         <Button
           key="restart-game-cta"
           type="primary"

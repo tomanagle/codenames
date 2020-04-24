@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Row, Col, Button, Spin, Alert as _Alert } from 'antd';
+import { Row, Col, Button, Spin, Alert as _Alert, Input, message } from 'antd';
 import styled from 'styled-components';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import {
   Game,
   usePickWordMutation,
@@ -10,6 +11,10 @@ import {
   Team
 } from '../generated';
 import GameStats from '../components/GameStats';
+
+const CopyWrapper = styled.div`
+  display: flex;
+`;
 
 const Alert = styled(_Alert)`
   color: #333;
@@ -110,11 +115,13 @@ const Tile = styled.div`
 const GameContainer = ({
   game,
   user,
-  permalink
+  permalink,
+  readyUsersLength
 }: {
   game: Game;
   user: User;
   permalink: Game['permalink'];
+  readyUsersLength: number;
 }) => {
   const [loading, setLoading] = useState('');
   const [pickWord] = usePickWordMutation({
@@ -132,43 +139,79 @@ const GameContainer = ({
 
   return (
     <GameWrapper>
-      {user.team === game.currentTurn && (
-        <Alert
-          message="It's your turn!"
-          description={
-            user.role === Role.SPYMASTER
-              ? `Give your team mate a one word clue to help them file all the ${String(
-                  game.currentTurn
-                ).toUpperCase()} words.`
-              : `Use your Spymaster's clue to find all the ${String(
-                  game.currentTurn
-                ).toUpperCase()} words.`
-          }
-          currentTurn={game.currentTurn}
-          type="success"
-        />
-      )}
-      {user.team !== game.currentTurn && (
-        <Alert
-          message={`Wait for the ${String(
-            game.currentTurn
-          ).toUpperCase()} team`}
-          description={`It's the ${String(
-            game.currentTurn
-          ).toUpperCase()} team's turn, wait
+      {readyUsersLength < 4 ? (
+        <>
+          {user && (
+            <p>
+              Welcome {user.name}! To get started share the link below with your
+              friends and family. We currently have {readyUsersLength} user
+              {readyUsersLength > 1 && 's'} in the room and we need 4 start
+              start.
+            </p>
+          )}
+          <CopyWrapper>
+            <Input
+              value={`https://playcodenames.online/${permalink}`}
+              id="game-url"
+            />
+            <CopyToClipboard
+              text={`https://playcodenames.online/${permalink}/?utm_source=start_game&utm_medium=share&utm_campaign=copy_link`}
+              onCopy={() =>
+                message.success(
+                  'Copied to clipboard. Now share it with your friends!',
+                  30
+                )
+              }
+            >
+              <Button>Copy to clipboard</Button>
+            </CopyToClipboard>
+          </CopyWrapper>
+        </>
+      ) : (
+        <>
+          {user.team === game.currentTurn && (
+            <Alert
+              message="It's your turn!"
+              description={
+                user.role === Role.SPYMASTER
+                  ? `Give your team mate a one word clue to help them file all the ${String(
+                      game.currentTurn
+                    ).toUpperCase()} words.`
+                  : `Use your Spymaster's clue to find all the ${String(
+                      game.currentTurn
+                    ).toUpperCase()} words.`
+              }
+              currentTurn={game.currentTurn}
+              type="success"
+            />
+          )}
+          {user.team !== game.currentTurn && (
+            <Alert
+              message={`Wait for the ${String(
+                game.currentTurn
+              ).toUpperCase()} team`}
+              description={`It's the ${String(
+                game.currentTurn
+              ).toUpperCase()} team's turn, wait
       for them to finish.`}
-          type="info"
-          currentTurn={game.currentTurn}
-        />
+              type="info"
+              currentTurn={game.currentTurn}
+            />
+          )}
+        </>
       )}
-
       <Row align="middle">
         <Col flex="1">
           <GameStats game={game} />
         </Col>
         {user.team === game.currentTurn && (
           <Col>
-            <Button loading={endTurnLoading} onClick={() => endTurn()}>
+            <Button
+              type="primary"
+              disabled={readyUsersLength < 4}
+              loading={endTurnLoading}
+              onClick={() => endTurn()}
+            >
               END TURN
             </Button>
           </Col>
@@ -186,7 +229,10 @@ const GameContainer = ({
                   word.death
                 )}`}
                 disabled={
-                  game.currentTurn !== user.team || user.role === Role.SPYMASTER
+                  readyUsersLength < 4 ||
+                  game.winner !== Team.NONE ||
+                  game.currentTurn !== user.team ||
+                  user.role === Role.SPYMASTER
                 }
                 onClick={() => {
                   setLoading(word._id);

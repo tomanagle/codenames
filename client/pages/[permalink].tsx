@@ -133,48 +133,17 @@ const GamePage = ({ query: { permalink } }) => {
           visible={!user || !user.role || !user.team}
         />
       )}
-      {readyUsers.length === 4 ? (
-        <GameContainer
-          permalink={permalink}
-          user={
-            user || {
-              team: Team.NONE
-            }
-          }
-          game={game}
-        />
-      ) : (
-        <WaitingWrapper>
-          <Result
-            title={`Not enough players to start`}
-            subTitle={`We currently have ${users.length} player${
-              readyUsers.length === 1 ? '' : 's'
-            } in the room. We need 4 to start.`}
-          />
-          <p>
-            To play with friends they will need to join the same game. Copy the
-            link below and share it with your friends.
-          </p>
 
-          <CopyWrapper>
-            <Input
-              value={`https://playcodenames.online/${permalink}`}
-              id="game-url"
-            />
-            <CopyToClipboard
-              text={`https://playcodenames.online/${permalink}/?utm_source=start_game&utm_medium=share&utm_campaign=copy_link`}
-              onCopy={() =>
-                message.success(
-                  'Copied to clipboard. Now share it with your friends!',
-                  30
-                )
-              }
-            >
-              <Button>Copy to clipboard</Button>
-            </CopyToClipboard>
-          </CopyWrapper>
-        </WaitingWrapper>
-      )}
+      <GameContainer
+        readyUsersLength={readyUsers.length}
+        permalink={permalink}
+        user={
+          user || {
+            team: Team.NONE
+          }
+        }
+        game={game}
+      />
     </App>
   );
 };
