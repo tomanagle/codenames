@@ -1,4 +1,5 @@
 import React from 'react';
+import { get } from 'lodash';
 import Head from 'next/head';
 import { getDataFromTree } from '@apollo/react-ssr';
 import initApollo from './init-apollo';
@@ -14,10 +15,7 @@ export default App => {
       if (App.getInitialProps) {
         appProps = await App.getInitialProps(ctx);
       }
-      const headers =
-        ctx && ctx.ctx && ctx.ctx.req && ctx.ctx.req.headers
-          ? ctx.ctx.req.headers
-          : {};
+      const headers = get(ctx, 'ctx.req.headers', {});
 
       // Run all GraphQL queries in the component tree
       // and extract the resulting data
