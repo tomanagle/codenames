@@ -9,11 +9,7 @@ async function connect() {
                 useNewUrlParser: true,
                 useUnifiedTopology: true,
             })
-            .then(() =>
-                Logger.info(
-                    `🗄️ Successfully connected to database 🗄️ ${MONO_DB_CONNECTION_STRING} 🗄️`
-                )
-            )
+            .then(() => Logger.info(`🗄️ Successfully connected to database 🗄️`))
     } catch (error) {
         Logger.error(
             `🔥 An error ocurred when trying to connect to database 🔥. ${
