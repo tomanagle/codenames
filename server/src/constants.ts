@@ -16,3 +16,13 @@ export const MONO_DB_CONNECTION_STRING =
 export const CORS_ORIGIN = process.env.CORS_ORIGIN || 'http://localhost:3000'
 
 export const SENTRY_DSN = process.env.SENTRY_DSN
+
+export const LOG_OPTIONS = {
+    key: process.env.LOG_DNA_API_KEY,
+    hostname: process.env.HOSTNAME || 'playcodenames.online',
+    app: process.env.APP_NAME || 'codenames-server',
+    env: ENV,
+    handleExceptions: true,
+}
+
+export const LOG_DNA_API_KEY = process.env.LOG_DNA_API_KEY

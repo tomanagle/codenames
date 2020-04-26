@@ -7,6 +7,7 @@ import randomName from 'node-random-name'
 import { pubsub } from '../app'
 import { GAME_UPDATED, GAME_RESET } from '../constants'
 import analytics, { IAction, IWinMechanism } from '../models/analytics.model'
+import Logger from '../logger'
 
 function shuffle(array: any) {
     return array.sort(() => Math.random() - 0.5).sort(() => Math.random() - 0.5)
@@ -78,6 +79,7 @@ export interface StartGameInput {
 }
 
 export async function startGame({ language, ip }: StartGameInput) {
+    Logger.info(`Starting new game from ip ${ip}`)
     const {
         restWords,
         deathWord,
@@ -97,6 +99,7 @@ export async function startGame({ language, ip }: StartGameInput) {
             ...restWords,
         ]),
     }).catch(error => {
+        Logger.error(`Error starting new game: ${error.message}`)
         throw error
     })
 }
@@ -116,14 +119,24 @@ export async function joinGame({
     name,
     ip,
 }: JoinGameInput) {
+    Logger.info(
+        `Joining game ${permalink} from ip ${ip} as role ${role} for ${team} team`
+    )
+
     const game = await Game.findOne({ permalink })
         .populate('users')
         .exec()
 
     if (!game) {
+        Logger.error(`Error joining game ${permalink}: Game does not exist`)
         throw new ApolloError('That game does not exist.')
     }
     if (game.users.length === 4) {
+        Logger.error(
+            `Error joining game ${permalink}: game users length is ${
+                game.users.length
+            }`
+        )
         throw new ApolloError(
             'That game is already full. Try starting a new one!'
         )
@@ -149,7 +162,9 @@ export async function joinGame({
         role,
         game: game._id,
         ip,
-    }).catch(() => {
+    }).catch(error => {
+        Logger.error(`Error joining game ${permalink}: ${error.message}`)
+
         // Force the unique index
         throw new Error(
             `Sorry the ${String(role).toUpperCase()} role in the ${String(
