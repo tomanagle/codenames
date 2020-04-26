@@ -80,6 +80,7 @@ export interface StartGameInput {
 
 export async function startGame({ language, ip }: StartGameInput) {
     Logger.info(`Starting new game from ip ${ip}`)
+
     const {
         restWords,
         deathWord,
@@ -199,6 +200,7 @@ export interface PickWordInput {
 }
 
 export async function pickWord({ word, user, permalink, ip }: PickWordInput) {
+    Logger.info(`Picking word ${word} in game ${permalink} from ip ${ip}`)
     const game: IGame = await Game.findOne({ permalink }).catch(error => {
         throw error
     })
@@ -315,6 +317,7 @@ export interface EndTurnInput {
     permalink: string
 }
 export async function endTurn({ permalink }: EndTurnInput) {
+    Logger.info(`Ending turn in game ${permalink}`)
     const currentGame = await Game.findOne({ permalink }).exec()
 
     if (!currentGame) {
@@ -353,6 +356,7 @@ export interface ResetGameInput {
 }
 
 export async function resetGame({ permalink }: ResetGameInput) {
+    Logger.info(`Resetting game ${permalink}`)
     const game = await Game.findOne({ permalink })
         .lean()
         .exec()

@@ -17,6 +17,7 @@ import cors from 'cors'
 import insert from './migration/insert'
 import { version, name } from '../package.json'
 import apolloServerSentryPlugin from './utils/apolloServerSentryPlugin'
+import Logger from './logger'
 
 const port = 4000
 export const pubsub = new PubSub()
@@ -43,7 +44,10 @@ const ApolloServer = new _ApolloServer({
      */
     formatError: (error: GraphQLError) => {
         // eslint-disable-next-line
-        console.log(error)
+        Logger.error(`GraphQL Error message: ${error.message}`)
+        Logger.error(
+            `GraphQL Error stacktrace: ${error.extensions.exception.stacktrace}`
+        )
         return error
     },
     context: ({ req, ...rest }) => {
@@ -84,11 +88,12 @@ app.get('/healthcheck', (req, res) =>
 const server = http.createServer(app)
 
 async function onListening() {
+    Logger.info(`Server started on port ${port}`)
     await connect()
 
     setTimeout(async () => {
         await insert({ drop: true }).then(() => {
-            console.log('Finished inserting words :)')
+            return true
         })
     }, 2000)
 

@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
 import { MONO_DB_CONNECTION_STRING } from '../constants'
+import Logger from '../logger'
 
 async function connect() {
     try {
@@ -8,10 +9,17 @@ async function connect() {
                 useNewUrlParser: true,
                 useUnifiedTopology: true,
             })
-            .then(() => console.log(`🗄️ Successfully connected to database 🗄️`))
+            .then(() =>
+                Logger.info(
+                    `🗄️ Successfully connected to database 🗄️ ${MONO_DB_CONNECTION_STRING} 🗄️`
+                )
+            )
     } catch (error) {
-        console.log(`🔥 An error ocurred when trying to connect to database 🔥`)
-        console.error(error)
+        Logger.error(
+            `🔥 An error ocurred when trying to connect to database 🔥. ${
+                error.message
+            }`
+        )
         process.exit(1)
     }
 }
