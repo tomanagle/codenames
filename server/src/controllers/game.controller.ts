@@ -79,7 +79,7 @@ export interface StartGameInput {
 }
 
 export async function startGame({ language, ip }: StartGameInput) {
-    Logger.info(`Starting new game from ip ${ip}`)
+    Logger.info(`Starting new ${language} game from ip ${ip}`)
 
     const {
         restWords,
