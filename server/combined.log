@@ -1,0 +1,19 @@
+01-May-2020 16:26:36 [32minfo[39m: Server started on port 4000
+01-May-2020 16:26:36 [32minfo[39m: 🗄️ Successfully connected to database 🗄️
+01-May-2020 16:35:24 [32minfo[39m: Server started on port 4000
+01-May-2020 16:35:24 [32minfo[39m: 🗄️ Successfully connected to database 🗄️
+01-May-2020 16:46:25 [32minfo[39m: Starting new Adult game from ip ::1
+01-May-2020 16:48:20 [32minfo[39m: Joining game qov-4bmn_ from ip ::1 as role player for blue team
+01-May-2020 16:48:41 [32minfo[39m: Joining game qov-4bmn_ from ip ::1 as role spymaster for blue team
+01-May-2020 17:15:19 [32minfo[39m: Joining game qov-4bmn_ from ip ::1 as role spymaster for red team
+01-May-2020 17:15:27 [32minfo[39m: Joining game qov-4bmn_ from ip ::1 as role player for red team
+01-May-2020 17:15:31 [32minfo[39m: Picking word 5eabc32fa0587b24ffd4f9c1 in game qov-4bmn_ from ip ::1
+01-May-2020 17:15:34 [32minfo[39m: Picking word 5eabc32fa0587b24ffd4fa81 in game qov-4bmn_ from ip ::1
+01-May-2020 17:15:50 [32minfo[39m: Picking word 5eabc32fa0587b24ffd4f9f9 in game qov-4bmn_ from ip ::1
+01-May-2020 17:15:52 [32minfo[39m: Ending turn in game qov-4bmn_
+01-May-2020 17:15:55 [32minfo[39m: Picking word 5eabc32fa0587b24ffd4f9b8 in game qov-4bmn_ from ip ::1
+01-May-2020 17:15:58 [32minfo[39m: Resetting game qov-4bmn_
+01-May-2020 17:16:01 [32minfo[39m: Joining game qov-4bmn_ from ip ::1 as role spymaster for red team
+01-May-2020 17:16:04 [32minfo[39m: Joining game qov-4bmn_ from ip ::1 as role spymaster for blue team
+01-May-2020 17:16:09 [32minfo[39m: Joining game qov-4bmn_ from ip ::1 as role player for blue team
+01-May-2020 17:16:16 [32minfo[39m: Joining game qov-4bmn_ from ip ::1 as role player for red team

@@ -26,7 +26,7 @@ export async function getGameWords({ language }) {
         ])
         .exec()
 
-    const starts = Math.floor(Math.random() * 11) >= 5 ? Team.red : Team.green
+    const starts = Math.floor(Math.random() * 11) >= 5 ? Team.red : Team.blue
 
     const redWords =
         // @ts-ignore
@@ -39,14 +39,14 @@ export async function getGameWords({ language }) {
             }
         })
 
-    const greenWords = words
+    const blueWords = words
         // @ts-ignore
-        .splice(0, starts === Team.green ? 9 : 8)
+        .splice(0, starts === Team.blue ? 9 : 8)
         // @ts-ignore
         .map(word => {
             return {
                 ...word,
-                team: Team.green,
+                team: Team.blue,
                 picked: false,
                 death: false,
             }
@@ -70,7 +70,7 @@ export async function getGameWords({ language }) {
         }
     })
 
-    return { restWords, deathWord, greenWords, redWords, starts }
+    return { restWords, deathWord, blueWords, redWords, starts }
 }
 
 export interface StartGameInput {
@@ -84,7 +84,7 @@ export async function startGame({ language, ip }: StartGameInput) {
     const {
         restWords,
         deathWord,
-        greenWords,
+        blueWords,
         redWords,
         starts,
     } = await getGameWords({ language })
@@ -92,13 +92,8 @@ export async function startGame({ language, ip }: StartGameInput) {
     return Game.create({
         language,
         ip,
-        currentTurn: starts === Team.red ? Team.red : Team.green,
-        words: shuffle([
-            ...redWords,
-            ...greenWords,
-            ...deathWord,
-            ...restWords,
-        ]),
+        currentTurn: starts === Team.red ? Team.red : Team.blue,
+        words: shuffle([...redWords, ...blueWords, ...deathWord, ...restWords]),
     }).catch(error => {
         Logger.error(`Error starting new game: ${error.message}`)
         throw error
@@ -229,7 +224,7 @@ export async function pickWord({ word, user, permalink, ip }: PickWordInput) {
 
     // The user picked the death word
     if (selectedWord.death) {
-        const winner = player.team === Team.green ? Team.red : Team.green
+        const winner = player.team === Team.blue ? Team.red : Team.blue
         await game.update({
             finished: true,
             winner,
@@ -298,7 +293,7 @@ export async function pickWord({ word, user, permalink, ip }: PickWordInput) {
     // If player selected the other team's card - switch turns
     if (player.team !== selectedWord.team) {
         await game.update({
-            currentTurn: player.team === Team.green ? Team.red : Team.green,
+            currentTurn: player.team === Team.blue ? Team.red : Team.blue,
         })
     }
 
@@ -330,7 +325,7 @@ export async function endTurn({ permalink }: EndTurnInput) {
         currentGame._id,
         {
             currentTurn:
-                currentGame.currentTurn === Team.red ? Team.green : Team.red,
+                currentGame.currentTurn === Team.red ? Team.blue : Team.red,
         },
         { new: true }
     ).exec()
@@ -364,7 +359,7 @@ export async function resetGame({ permalink }: ResetGameInput) {
     const {
         restWords,
         deathWord,
-        greenWords,
+        blueWords,
         redWords,
         starts,
     } = await getGameWords({ language: game.language })
@@ -378,10 +373,10 @@ export async function resetGame({ permalink }: ResetGameInput) {
                 finished: false,
                 winner: Team.none,
                 users: [],
-                currentTurn: starts === Team.red ? Team.red : Team.green,
+                currentTurn: starts === Team.red ? Team.red : Team.blue,
                 words: shuffle([
                     ...redWords,
-                    ...greenWords,
+                    ...blueWords,
                     ...deathWord,
                     ...restWords,
                 ]),

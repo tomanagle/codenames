@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Row, Col, Button, Spin, Alert as _Alert, Input, message } from 'antd';
+import { ArrowRightOutlined, ArrowLeftOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import {
@@ -11,9 +12,12 @@ import {
   Team
 } from '../generated';
 import GameStats from '../components/GameStats';
+import { RED_COLOUR, BLUE_COLOUR } from '../constants';
 
 const CopyWrapper = styled.div`
   display: flex;
+  align-items: center;
+  margin-top: 0.5rem;
 `;
 
 const Alert = styled(_Alert)`
@@ -26,10 +30,10 @@ const Alert = styled(_Alert)`
   background-color: ${props =>
     props.currentTurn === Team.RED
       ? 'rgba(255,23,68, .1)'
-      : 'rgba(0,200,83, .1)'};
+      : 'rgba(34, 150, 242, .1)'};
 
   border-color: ${props =>
-    props.currentTurn === Team.RED ? 'rgb(255,23,68)' : 'rgb(0,200,83)'};
+    props.currentTurn === Team.RED ? 'rgb(255,23,68)' : 'rgb(34, 150, 242)'};
 `;
 
 const GameWrapper = styled.div`
@@ -78,21 +82,21 @@ const Tile = styled.div`
 
   button.role__spymaster.word-team__red.picked__false {
     background-color: #fff;
-    color: #ff1744;
+    color: ${RED_COLOUR};
   }
 
-  button.role__spymaster.word-team__green.picked__false {
+  button.role__spymaster.word-team__blue.picked__false {
     background-color: #fff;
-    color: #00c853;
+    color: ${BLUE_COLOUR};
   }
 
   button.word-team__red.picked__true {
-    background-color: #ff1744;
+    background-color: ${RED_COLOUR};
     color: #fff;
   }
 
-  button.word-team__green.picked__true {
-    background-color: #00c853;
+  button.word-team__blue.picked__true {
+    background-color: ${BLUE_COLOUR};
     color: #fff;
   }
 
@@ -107,7 +111,7 @@ const Tile = styled.div`
   }
 
   button.word-team__none.picked__true {
-    background-color: #fff9c4;
+    background-color: ${RED_COLOUR};
     color: #000;
   }
 `;
@@ -141,16 +145,22 @@ const GameContainer = ({
     <GameWrapper>
       {readyUsersLength < 4 ? (
         <>
-          {user && (
-            <p>
-              Welcome {user.name}! To get started share the link below with your
+          {user && user.name && (
+            <Alert
+              message={`Welcome ${user.name}!`}
+              description={`To get started share the link below with your
               friends and family. When all players join the game, you will be
-              able to start playing. We currently have {readyUsersLength} user
-              {readyUsersLength > 1 && 's'} in the room and we need 4 start
-              start.
-            </p>
+              able to start playing. We currently have ${readyUsersLength} 
+              ${
+                readyUsersLength > 1 ? 'users' : 'user'
+              } in the room and we need 4 start
+              start. Share the link below with the people you want to play with.`}
+            />
           )}
           <CopyWrapper>
+            <ArrowRightOutlined
+              style={{ marginRight: '.5rem', fontSize: '1.5rem' }}
+            />
             <Input
               value={`https://playcodenames.online/${permalink}`}
               id="game-url"
@@ -164,7 +174,12 @@ const GameContainer = ({
                 )
               }
             >
-              <Button>Copy to clipboard</Button>
+              <>
+                <Button>Copy to clipboard</Button>
+                <ArrowLeftOutlined
+                  style={{ marginLeft: '.5rem', fontSize: '1.5rem' }}
+                />
+              </>
             </CopyToClipboard>
           </CopyWrapper>
         </>

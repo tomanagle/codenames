@@ -3,7 +3,7 @@ import mongoose, { Document } from 'mongoose'
 
 export enum Team {
     red = 'red',
-    green = 'green',
+    blue = 'blue',
     none = 'none',
 }
 
@@ -21,7 +21,7 @@ export interface User extends Document {
 
 const Schema = new mongoose.Schema(
     {
-        team: { type: String, enum: ['red', 'green'] },
+        team: { type: String, enum: ['red', 'blue'] },
         role: { type: String, enum: ['spymaster', 'player'] },
         game: { type: mongoose.Schema.Types.ObjectId, ref: 'Game' },
         name: String,

@@ -20,7 +20,7 @@ const typeDefs = gql`
 
     enum Team {
         red
-        green
+        blue
         none
     }
 

@@ -12,3 +12,6 @@ export const {
   GA_ID,
   SENTRY_DSN
 } = publicRuntimeConfig;
+
+export const BLUE_COLOUR = '#2296f2';
+export const RED_COLOUR = '#ff1744';

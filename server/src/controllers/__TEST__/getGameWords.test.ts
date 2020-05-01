@@ -15,11 +15,11 @@ describe('game words', () => {
 
         if (words.starts === Team.red) {
             expect(words.redWords).toHaveLength(9)
-            expect(words.greenWords).toHaveLength(8)
+            expect(words.blueWords).toHaveLength(8)
         }
 
-        if (words.starts === Team.green) {
-            expect(words.greenWords).toHaveLength(9)
+        if (words.starts === Team.blue) {
+            expect(words.blueWords).toHaveLength(9)
             expect(words.redWords).toHaveLength(8)
         }
 
@@ -28,7 +28,7 @@ describe('game words', () => {
         expect([
             ...words.deathWord,
             ...words.redWords,
-            ...words.greenWords,
+            ...words.blueWords,
             ...words.restWords,
         ]).toHaveLength(25)
     })

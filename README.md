@@ -1,6 +1,6 @@
 <div align="center">
 
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com) 
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightblue.svg?style=flat-square)](http://makeapullrequest.com) 
 [![GitHub issues](https://img.shields.io/github/issues/tomanagle/codenames?style=flat-square)](https://github.com/tomanagle/codenames/issues)[![GitHub stars](https://img.shields.io/github/stars/tomanagle/codenames?style=flat-square)](https://github.com/tomanagle/codenames/stargazers)
 
 Built with 💜 by [Tom Nagle](https://github.com/tomanagle)

@@ -20,7 +20,7 @@ export interface IGame extends Document {
 const Schema = new mongoose.Schema(
     {
         title: String,
-        currentTurn: { type: String, enum: ['red', 'green'] },
+        currentTurn: { type: String, enum: ['red', 'blue'] },
         language: {
             type: String,
             default: 'English',
@@ -28,13 +28,13 @@ const Schema = new mongoose.Schema(
         },
         winner: {
             type: String,
-            enum: ['red', 'green', 'none'],
+            enum: ['red', 'blue', 'none'],
             default: 'none',
         },
         words: [
             {
                 label: String,
-                team: { type: String, enum: ['red', 'green', 'none'] },
+                team: { type: String, enum: ['red', 'blue', 'none'] },
                 picked: { type: Boolean, default: false },
                 death: { type: Boolean, default: false },
             },

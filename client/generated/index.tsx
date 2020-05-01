@@ -145,7 +145,7 @@ export type SubscriptionGameResetArgs = {
 
 export enum Team {
   RED = 'red',
-  GREEN = 'green',
+  BLUE = 'blue',
   NONE = 'none'
 }
 

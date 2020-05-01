@@ -68,7 +68,7 @@ export default [
     'gold',
     'grass',
     'greece',
-    'green',
+    'blue',
     'ham',
     'head',
     'himalaya',

@@ -1,6 +1,7 @@
 import { Row, Col } from 'antd';
 import styled from 'styled-components';
 import { Team } from '../generated';
+import { RED_COLOUR, BLUE_COLOUR } from '../constants';
 
 const WordsLeft = styled.div`
   padding: 1rem 1.5rem;
@@ -9,7 +10,7 @@ const WordsLeft = styled.div`
   color: #ffffff;
   line-height: 1;
   background-color: ${props =>
-    props.team === Team.RED ? '#ff1744' : '#00c853'};
+    props.team === Team.RED ? RED_COLOUR : BLUE_COLOUR};
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
   :nth-of-type(1) {
@@ -20,8 +21,8 @@ const WordsLeft = styled.div`
 const GameStats = ({ game }) => {
   const redWords = game.words.filter(item => item.team === Team.RED);
   const redWordsPicked = redWords.filter(item => item.picked);
-  const greenWords = game.words.filter(item => item.team === Team.GREEN);
-  const greenWordsPicked = greenWords.filter(item => item.picked);
+  const blueWords = game.words.filter(item => item.team === Team.BLUE);
+  const blueWordsPicked = blueWords.filter(item => item.picked);
 
   if (redWords.length === 9) {
     return (
@@ -29,8 +30,8 @@ const GameStats = ({ game }) => {
         <WordsLeft team={Team.RED}>
           {redWords.length - redWordsPicked.length}
         </WordsLeft>
-        <WordsLeft team={Team.GREEN}>
-          {greenWords.length - greenWordsPicked.length}
+        <WordsLeft team={Team.BLUE}>
+          {blueWords.length - blueWordsPicked.length}
         </WordsLeft>
       </Row>
     );
@@ -38,8 +39,8 @@ const GameStats = ({ game }) => {
 
   return (
     <Row>
-      <WordsLeft team={Team.GREEN}>
-        {greenWords.length - greenWordsPicked.length}
+      <WordsLeft team={Team.BLUE}>
+        {blueWords.length - blueWordsPicked.length}
       </WordsLeft>
       <WordsLeft team={Team.RED}>
         {redWords.length - redWordsPicked.length}

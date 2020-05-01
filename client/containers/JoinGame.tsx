@@ -26,16 +26,16 @@ const JoinGame = ({ permalink, setUser, visible, users }) => {
     ];
   }
 
-  const greenSpymaster = users.filter(
-    u => u.role === Role.SPYMASTER && u.team === Team.GREEN
+  const blueSpymaster = users.filter(
+    u => u.role === Role.SPYMASTER && u.team === Team.BLUE
   )[0];
 
-  if (!greenSpymaster) {
+  if (!blueSpymaster) {
     availableRoles = [
       ...availableRoles,
       {
         role: Role.SPYMASTER,
-        team: Team.GREEN
+        team: Team.BLUE
       }
     ];
   }
@@ -53,16 +53,16 @@ const JoinGame = ({ permalink, setUser, visible, users }) => {
     ];
   }
 
-  const greenPlayer = users.filter(
-    u => u.role === Role.PLAYER && u.team === Team.GREEN
+  const bluePlayer = users.filter(
+    u => u.role === Role.PLAYER && u.team === Team.BLUE
   )[0];
 
-  if (!greenPlayer) {
+  if (!bluePlayer) {
     availableRoles = [
       ...availableRoles,
       {
         role: Role.PLAYER,
-        team: Team.GREEN
+        team: Team.BLUE
       }
     ];
   }

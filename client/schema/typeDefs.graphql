@@ -82,7 +82,7 @@ type Subscription {
 
 enum Team {
   red
-  green
+  blue
   none
 }
 
