@@ -151,7 +151,6 @@ export default [
     'Rave',
     'Inch',
     'Nipple',
-    'Gay',
     'High',
     'Booze',
     'Beaver',
